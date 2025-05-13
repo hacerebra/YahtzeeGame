@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  *
  * @author hacerebra
  */
-/////
 public class Client {
 
     public static Socket socket;
@@ -119,6 +118,10 @@ class ListenThread extends Thread {
                     case Bitis:
                         Login.game.finishState = true;
                         Game.o2_toplam.setText((String) msg.content);
+                        break;
+                    case Kazanma:
+                        Login.game.lbl_bitis.setText((String) msg.content);
+                        Login.game.btn_yeni.setEnabled(true);
                         break;
                 }
             } catch (IOException ex) {

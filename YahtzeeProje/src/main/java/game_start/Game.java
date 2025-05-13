@@ -260,6 +260,10 @@ public class Game extends javax.swing.JFrame {
                         lbl_bitis.setText(finishStr);
 
                     }
+                    // Sonuç mesajını Client'a gönder
+                    Message winMessage = new Message(Message.Message_Type.Kazanma);
+                    winMessage.content = msg;  // Kazanma mesajı içerik olarak
+                    Client.Send(winMessage);
 
                 }
 

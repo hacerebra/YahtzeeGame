@@ -91,6 +91,8 @@ public class SClient {
                         case Bitis:
                             Server.Send(sclient.rival, msg);
                             break;
+                        case Kazanma:
+                            Server.Send(sclient.rival, msg);
 
                     }
                 } catch (IOException ex) {
