@@ -5,7 +5,6 @@
 package Client;
 
 import Game.Zar;
-import game_start.Game;
 import game_start.Login;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -83,16 +82,15 @@ class ListenThread extends Thread {
             try {
                 Message msg = (Message) Client.sInput.readObject();
                 switch (msg.type) {
-                    case Ad:
+                    case Ad:      
                         break;
                     case RakipBaglanti:
                         System.out.println("Rakip Bağlantı");
                         String rivalName = (String) msg.content;
                         Client.isPaired = true;
                         Login.control.setText("Eşleşme oldu");
-                        Login.game.oyuncu1_lbl.setText("Sen");
-                        Login.game.oyuncu2_lbl.setText(rivalName);
-                        Login.game.setVisible(true);
+                        Login.game.oyuncu2_lbl.setText(rivalName);                      
+                        Login.login.setVisible(false);
                         break;
                     case TurDegis:
                         System.out.println("Tur değişimi");
@@ -116,25 +114,31 @@ class ListenThread extends Thread {
                             Login.game.zarlar[i].label.setIcon(Zar.getImageIcon(gelenZarlar.zarlar[i]));
                         }
                         break;
+                    case AraToplam:
+                        Login.game.o2_ara.setText((String) msg.content);
+                        break;
                     case Bitis:
                         Login.game.finishState = true;
-                        Game.o2_toplam.setText((String) msg.content);
+                        Login.game.o2_toplam.setText((String) msg.content);
                         break;
                     case Kazanma:
                         Login.game.lbl_bitis.setText((String) msg.content);
                         Login.game.btn_yeni.setEnabled(true);
+                        Login.game.zarat_btn.setEnabled(false);
                         break;
                     case YeniOyun:
                         System.out.println("Yeni oyun başlatılıyor...");
                         // Yeni oyun için gerekli sıfırlamaları yapın
                         Login.game.btn_yeni.setEnabled(false);
-                        Login.game.zarat_btn.setEnabled(false);
                         Login.game.resetGame();  // Bu metodu Login.game içerisinde tanımlamanız gerekebilir
+                        Login.game.zarat_btn.setEnabled(false);
                         // Rakip ekranında "Yeni oyun başladı!" mesajı gösterebilirsiniz
                         JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
                         break;
                     case BaglantiKoptu:
                         JOptionPane.showMessageDialog(null, msg.content.toString(), "Bağlantı Kesildi", JOptionPane.WARNING_MESSAGE);
+                        Login.game.resetGame();
+                        Login.game.oyuncu2_lbl.setText("Rakip");
                         break;
                 }
             } catch (IOException ex) {

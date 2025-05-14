@@ -88,6 +88,9 @@ public class SClient {
                         case Zarlar:
                             Server.Send(sclient.rival, msg);
                             break;
+                        case AraToplam:
+                            Server.Send(sclient.rival, msg);
+                            break;
                         case Bitis:
                             Server.Send(sclient.rival, msg);
                             break;
@@ -103,7 +106,7 @@ public class SClient {
                     }
                 } catch (IOException ex) {
                     System.out.println("Listen Thread Exception");
-                   
+
                     // Client bağlantısını kapat
                     try {
                         sclient.socket.close();
@@ -123,7 +126,6 @@ public class SClient {
                     }
                     // Bu client'i listeden sil
                     Server.sclients.remove(sclient);
-
                     // Thread'den çık
                     break;
                 } catch (ClassNotFoundException ex) {

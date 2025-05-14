@@ -126,9 +126,6 @@ public class Game extends javax.swing.JFrame {
         // Zarların aktifligini tur degisimlerinde kontrol et
         for (Zar zar : zarlar) {
             zar.getLabel().setEnabled(control);
-            if (zar.getLabel().isEnabled()) {
-                zar.shuffle();
-            }
         }
 
         // player1 buttons
@@ -220,6 +217,11 @@ public class Game extends javax.swing.JFrame {
                 o1_bonus.setText("0");
                 o1_ara.setText(String.valueOf(araToplamSon));
             }
+
+            Message aratoplamMsg = new Message(Message.Message_Type.AraToplam);
+            aratoplamMsg.content = o1_ara.getText();
+            Client.Send(aratoplamMsg);
+
             // TOTAL SCORE CONTROLS 
             if (getMyButtonByGivenType(Scores.UcSet).isButtonChoosen
                     && getMyButtonByGivenType(Scores.DortSet).isButtonChoosen
@@ -898,7 +900,7 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public static javax.swing.JLabel lbl_bitis;
+    public javax.swing.JLabel lbl_bitis;
     private javax.swing.JButton o1_1;
     private javax.swing.JButton o1_10;
     private javax.swing.JButton o1_11;
@@ -928,9 +930,9 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JButton o2_7;
     private javax.swing.JButton o2_8;
     private javax.swing.JButton o2_9;
-    private javax.swing.JLabel o2_ara;
+    public javax.swing.JLabel o2_ara;
     private javax.swing.JLabel o2_bonus;
-    public static javax.swing.JLabel o2_toplam;
+    public javax.swing.JLabel o2_toplam;
     public javax.swing.JLabel oyuncu1_lbl;
     public javax.swing.JLabel oyuncu2_lbl;
     private javax.swing.JRadioButton z1;

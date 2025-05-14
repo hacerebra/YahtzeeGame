@@ -15,11 +15,13 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     public static Game game = new Game();
+    public static Login login;
 
     /**
      * Creates new form Login
      */
     public Login() {
+        login = this;
         initComponents();
     }
 
@@ -132,6 +134,9 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_baglanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_baglanActionPerformed
+        game.setVisible(true);
+        game.oyuncu1_lbl.setText("Sen (" + txt_ad.getText() + ")");
+        game.oyuncu2_lbl.setText("Rakip");
         if (txt_ad.getText().equals(null) || txt_ad.getText().equals("")) {
             System.out.println("FAIL!");
         } else {
