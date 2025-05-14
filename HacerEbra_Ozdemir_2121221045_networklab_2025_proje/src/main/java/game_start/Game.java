@@ -11,7 +11,6 @@ import Client.ScoreMessage.Scores;
 import Client.ZarMessage;
 import Game.Score;
 import Game.Zar;
-import static game_start.Login.txt_ad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

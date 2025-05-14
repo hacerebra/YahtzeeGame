@@ -73,14 +73,14 @@ public class SClient {
                     Message msg = (Message) sclient.sInput.readObject();
                     switch (msg.type) {
                         case Ad:
-                           sclient.name = msg.content.toString();
+                            sclient.name = msg.content.toString();
                             if (!sclient.pairThread.isAlive()) {
                                 sclient.pairThread.start();
                             }
                             break;
                         case TurDegis:
                             sclient.rival.Send(msg);
-                            System.out.println("Sclient mesajı yollandı.");
+                            System.out.println("Tur degistirdi.");
                             break;
                         case Kontrol:
                             Server.Send(sclient.rival, msg);
