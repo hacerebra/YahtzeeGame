@@ -37,7 +37,6 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_ad = new javax.swing.JTextField();
-        control = new javax.swing.JLabel();
         btn_cıkıs = new javax.swing.JButton();
         btn_baglan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -50,9 +49,6 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 102));
         jLabel2.setText("KULLANICI GİRİŞİ");
-
-        control.setForeground(new java.awt.Color(255, 255, 102));
-        control.setText("Bağlantı kontrolü");
 
         btn_cıkıs.setBackground(new java.awt.Color(255, 255, 51));
         btn_cıkıs.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -91,9 +87,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(btn_baglan, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_ad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(control, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(txt_ad, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +104,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(txt_ad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_baglan)
                     .addComponent(btn_cıkıs))
@@ -137,20 +129,18 @@ public class Login extends javax.swing.JFrame {
         game.setVisible(true);
         game.oyuncu1_lbl.setText("Sen (" + txt_ad.getText() + ")");
         game.oyuncu2_lbl.setText("Rakip");
+        game.zarat_btn.setEnabled(false);
+        game.z1.setEnabled(false);
+        game.z2.setEnabled(false);
+        game.z3.setEnabled(false);
+        game.z4.setEnabled(false);
+        game.z5.setEnabled(false);
+
         if (txt_ad.getText().equals(null) || txt_ad.getText().equals("")) {
             System.out.println("FAIL!");
-        } else {
-            // Client servera baglanıyor
-            Client.Start("127.0.0.1", 8080);
-            if (Client.socket == null) {
-                JOptionPane.showMessageDialog(this, "Connection Failed !!");
-                System.exit(0);
-            }
-            Message newMsg = new Message(Message.Message_Type.Ad);
-            newMsg.content = txt_ad.getText();
-            Client.Send(newMsg);
-            btn_baglan.setEnabled(false);
         }
+
+        login.setVisible(false);
     }//GEN-LAST:event_btn_baglanActionPerformed
 
     private void btn_cıkısActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cıkısActionPerformed
@@ -196,7 +186,6 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_baglan;
     private javax.swing.JButton btn_cıkıs;
-    public static javax.swing.JLabel control;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -38,6 +38,7 @@ public class Client {
             Message msg = new Message(Message.Message_Type.Ad);
             msg.content = Login.txt_ad.getText();
             Client.Send(msg);
+            
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -82,14 +83,14 @@ class ListenThread extends Thread {
             try {
                 Message msg = (Message) Client.sInput.readObject();
                 switch (msg.type) {
-                    case Ad:      
+                    case Ad:
                         break;
                     case RakipBaglanti:
                         System.out.println("Rakip Bağlantı");
                         String rivalName = (String) msg.content;
                         Client.isPaired = true;
-                        Login.control.setText("Eşleşme oldu");
-                        Login.game.oyuncu2_lbl.setText(rivalName);                      
+                        Login.game.control.setText("Eşleşme oldu.");
+                        Login.game.oyuncu2_lbl.setText(rivalName);
                         Login.login.setVisible(false);
                         break;
                     case TurDegis:
@@ -138,7 +139,9 @@ class ListenThread extends Thread {
                     case BaglantiKoptu:
                         JOptionPane.showMessageDialog(null, msg.content.toString(), "Bağlantı Kesildi", JOptionPane.WARNING_MESSAGE);
                         Login.game.resetGame();
+                        Login.game.control.setText("Rakibiniz ayrıldı. Yeni rakip bekleniyor...");
                         Login.game.oyuncu2_lbl.setText("Rakip");
+
                         break;
                 }
             } catch (IOException ex) {

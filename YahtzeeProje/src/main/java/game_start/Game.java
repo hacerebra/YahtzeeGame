@@ -11,10 +11,12 @@ import Client.ScoreMessage.Scores;
 import Client.ZarMessage;
 import Game.Score;
 import Game.Zar;
+import static game_start.Login.txt_ad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,8 +39,8 @@ public class Game extends javax.swing.JFrame {
 
     public Game() {
         initComponents();
-        myPoints = new ArrayList();
-        rivalPoints = new ArrayList();
+        myPoints = new ArrayList<Score>();
+        rivalPoints = new ArrayList<Score>();
         thisGame = this;
         btn_yeni.setEnabled(false);
         initScores();
@@ -392,6 +394,8 @@ public class Game extends javax.swing.JFrame {
         o2_toplam = new javax.swing.JLabel();
         lbl_bitis = new javax.swing.JLabel();
         btn_yeni = new javax.swing.JButton();
+        btn_oyun = new javax.swing.JButton();
+        control = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(781, 708));
@@ -463,15 +467,15 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        dice05lbl.setText("jLabel1");
+        dice05lbl.setText("zar5");
 
-        dice04lbl.setText("jLabel1");
+        dice04lbl.setText("zar4");
 
-        dice03lbl.setText("jLabel1");
+        dice03lbl.setText("zar3");
 
-        dice01lbl.setText("jLabel1");
+        dice01lbl.setText("zar1");
 
-        dice02lbl.setText("jLabel1");
+        dice02lbl.setText("zar2");
 
         jLabel17.setFont(new java.awt.Font("PT Serif", 3, 36)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(76, 32, 165));
@@ -535,82 +539,108 @@ public class Game extends javax.swing.JFrame {
         jPanel1.add(oyuncu2_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 12, -1, -1));
 
         o1_1.setText("-");
-        jPanel1.add(o1_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 47, -1, -1));
+        o1_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 47, 60, -1));
 
         o1_2.setText("-");
-        jPanel1.add(o1_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 79, -1, -1));
+        o1_2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 79, 60, -1));
 
         o1_3.setText("-");
-        jPanel1.add(o1_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 111, -1, -1));
+        o1_3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 111, 60, -1));
 
         o1_4.setText("-");
-        jPanel1.add(o1_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 143, -1, -1));
+        o1_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 143, 60, -1));
 
         o1_5.setText("-");
-        jPanel1.add(o1_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 175, -1, -1));
+        o1_5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 175, 60, -1));
 
         o1_6.setText("-");
-        jPanel1.add(o1_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 207, -1, -1));
+        o1_6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 207, 60, -1));
 
         o1_7.setText("-");
-        jPanel1.add(o1_7, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 300, -1, -1));
+        o1_7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_7, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 300, 60, -1));
 
         o1_8.setText("-");
-        jPanel1.add(o1_8, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 332, -1, -1));
+        o1_8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_8, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 332, 60, -1));
 
         o1_9.setText("-");
-        jPanel1.add(o1_9, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 364, -1, -1));
+        o1_9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_9, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 364, 60, -1));
 
         o1_10.setText("-");
-        jPanel1.add(o1_10, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 399, -1, -1));
+        o1_10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_10, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 399, 60, -1));
 
         o1_11.setText("-");
-        jPanel1.add(o1_11, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 431, -1, -1));
+        o1_11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_11, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 431, 60, -1));
 
         o1_12.setText("-");
-        jPanel1.add(o1_12, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 463, -1, -1));
+        o1_12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_12, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 463, 60, -1));
 
         o1_13.setText("-");
-        jPanel1.add(o1_13, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 495, -1, -1));
+        o1_13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o1_13, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 495, 60, -1));
 
         o2_1.setText("-");
-        jPanel1.add(o2_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 47, -1, -1));
+        o2_1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 47, 60, -1));
 
         o2_2.setText("-");
-        jPanel1.add(o2_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 79, -1, -1));
+        o2_2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 79, 60, -1));
 
         o2_3.setText("-");
-        jPanel1.add(o2_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 111, -1, -1));
+        o2_3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 111, 60, -1));
 
         o2_4.setText("-");
-        jPanel1.add(o2_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 143, -1, -1));
+        o2_4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 143, 60, -1));
 
         o2_5.setText("-");
-        jPanel1.add(o2_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 175, -1, -1));
+        o2_5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 175, 60, -1));
 
         o2_6.setText("-");
-        jPanel1.add(o2_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 207, -1, -1));
+        o2_6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 207, 60, -1));
 
         o2_7.setText("-");
-        jPanel1.add(o2_7, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 300, -1, -1));
+        o2_7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_7, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 300, 60, -1));
 
         o2_8.setText("-");
-        jPanel1.add(o2_8, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 332, -1, -1));
+        o2_8.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_8, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 332, 60, -1));
 
         o2_9.setText("-");
-        jPanel1.add(o2_9, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 364, -1, -1));
+        o2_9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_9, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 364, 60, -1));
 
         o2_10.setText("-");
-        jPanel1.add(o2_10, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 399, -1, -1));
+        o2_10.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_10, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 399, 60, -1));
 
         o2_11.setText("-");
-        jPanel1.add(o2_11, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 431, -1, -1));
+        o2_11.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_11, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 431, 60, -1));
 
         o2_12.setText("-");
-        jPanel1.add(o2_12, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 463, -1, -1));
+        o2_12.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_12, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 463, 60, -1));
 
         o2_13.setText("-");
-        jPanel1.add(o2_13, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 495, -1, -1));
+        o2_13.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 0, 153), 3, true));
+        jPanel1.add(o2_13, new org.netbeans.lib.awtextra.AbsoluteConstraints(261, 495, 60, -1));
 
         o1_bonus.setText("-");
         jPanel1.add(o1_bonus, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 239, -1, -1));
@@ -644,38 +674,56 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
+        btn_oyun.setBackground(new java.awt.Color(255, 255, 102));
+        btn_oyun.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btn_oyun.setForeground(new java.awt.Color(76, 32, 165));
+        btn_oyun.setText("OYUNA BAŞLA");
+        btn_oyun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_oyunActionPerformed(evt);
+            }
+        });
+
+        control.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        control.setForeground(new java.awt.Color(76, 32, 165));
+        control.setText("Bağlantı kontrolü");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(z1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(z2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(z3))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(z4))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(z5)))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_yeni)
-                    .addComponent(zarat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(z1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(z2))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(z3))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(z4))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(z5)))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_yeni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(zarat_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_oyun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -684,48 +732,56 @@ public class Game extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(z1)))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(z1))
+                            .addComponent(btn_yeni))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(z2)))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(z3)))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(z4)))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(z5))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(z2)))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(z3)))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(z4)))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(z5))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(btn_yeni)
-                .addGap(254, 254, 254)
-                .addComponent(zarat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(lbl_bitis))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(btn_oyun)
+                                .addGap(268, 268, 268)
+                                .addComponent(zarat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(lbl_bitis)))))
+                .addGap(18, 18, 18)
+                .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -753,6 +809,11 @@ public class Game extends javax.swing.JFrame {
         // her oyuncunun bir elde 3 kere zar atma hakkı var
         if (rollCount == 3) {
             zarat_btn.setEnabled(false);
+            z1.setEnabled(false);
+            z2.setEnabled(false);
+            z3.setEnabled(false);
+            z4.setEnabled(false);
+            z5.setEnabled(false);
         }
 
         for (Zar d : zarlar) {
@@ -836,6 +897,16 @@ public class Game extends javax.swing.JFrame {
         Client.Send(msgKapandi);
     }//GEN-LAST:event_formWindowClosed
 
+    private void btn_oyunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_oyunActionPerformed
+        // Client servera baglanıyor
+        Client.Start("127.0.0.1", 8080);
+        if (Client.socket == null) {
+            JOptionPane.showMessageDialog(this, "Connection Failed !!");
+            System.exit(0);
+        }
+        btn_oyun.setEnabled(false);
+    }//GEN-LAST:event_btn_oyunActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -875,7 +946,9 @@ public class Game extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btn_oyun;
     public javax.swing.JButton btn_yeni;
+    public static javax.swing.JLabel control;
     private javax.swing.JLabel dice01lbl;
     private javax.swing.JLabel dice02lbl;
     private javax.swing.JLabel dice03lbl;
@@ -935,11 +1008,11 @@ public class Game extends javax.swing.JFrame {
     public javax.swing.JLabel o2_toplam;
     public javax.swing.JLabel oyuncu1_lbl;
     public javax.swing.JLabel oyuncu2_lbl;
-    private javax.swing.JRadioButton z1;
-    private javax.swing.JRadioButton z2;
-    private javax.swing.JRadioButton z3;
-    private javax.swing.JRadioButton z4;
-    private javax.swing.JRadioButton z5;
+    public javax.swing.JRadioButton z1;
+    public javax.swing.JRadioButton z2;
+    public javax.swing.JRadioButton z3;
+    public javax.swing.JRadioButton z4;
+    public javax.swing.JRadioButton z5;
     public javax.swing.JButton zarat_btn;
     // End of variables declaration//GEN-END:variables
 }

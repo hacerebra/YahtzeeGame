@@ -73,7 +73,7 @@ public class SClient {
                     Message msg = (Message) sclient.sInput.readObject();
                     switch (msg.type) {
                         case Ad:
-                            sclient.name = msg.content.toString();
+                           sclient.name = msg.content.toString();
                             if (!sclient.pairThread.isAlive()) {
                                 sclient.pairThread.start();
                             }

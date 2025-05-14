@@ -35,10 +35,6 @@ public class Score {
         return button;
     }
 
-    public void setButton(JButton button) {
-        this.button = button;
-    }
-
     public static int SkorHesaplama(Zar zarlar[], ScoreMessage.Scores score_type) {
         int score = 0;
         switch (score_type) {
