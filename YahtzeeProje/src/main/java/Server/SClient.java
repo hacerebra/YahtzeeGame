@@ -96,11 +96,31 @@ public class SClient {
                         case YeniOyun:
                             Server.Send(sclient.rival, msg);
                             break;
+                        case BaglantiKoptu:
+                            Server.Send(sclient.rival, msg);
+                            break;
 
                     }
                 } catch (IOException ex) {
                     System.out.println("Listen Thread Exception");
+                   
+                    // Client bağlantısını kapat
+                    try {
+                        sclient.socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                    // Rakibi varsa rakibini bilgilendir
+                    if (sclient.rival != null) {
+                        Message disconnectMsg = new Message(Message.Message_Type.BaglantiKoptu);
+                        disconnectMsg.content = "Rakibiniz oyundan ayrıldı.";
+                        Server.Send(sclient.rival, disconnectMsg);
+
+                        // Rakibin eşleşmesini de sıfırla
+                        sclient.rival.rival = null;
+                        sclient.rival.paired = false;
+                    }
                     // Bu client'i listeden sil
                     Server.sclients.remove(sclient);
 

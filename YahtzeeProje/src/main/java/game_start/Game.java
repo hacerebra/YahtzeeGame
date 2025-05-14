@@ -313,7 +313,6 @@ public class Game extends javax.swing.JFrame {
         // Yeni bir oyun için her şey sıfırlandı.
         lbl_bitis.setText("Bitis mesajı");  // Bitmiş oyun mesajlarını temizleme
 
-        // Gerekirse burada yeni bir oturum başlatma kodu da eklenebilir.
     }
 
     /**
@@ -831,7 +830,8 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_yeniActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
+        Message msgKapandi = new Message(Message.Message_Type.BaglantiKoptu);
+        Client.Send(msgKapandi);
     }//GEN-LAST:event_formWindowClosed
 
     /**

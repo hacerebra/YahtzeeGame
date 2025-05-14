@@ -133,6 +133,9 @@ class ListenThread extends Thread {
                         // Rakip ekranında "Yeni oyun başladı!" mesajı gösterebilirsiniz
                         JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
                         break;
+                    case BaglantiKoptu:
+                        JOptionPane.showMessageDialog(null, msg.content.toString(), "Bağlantı Kesildi", JOptionPane.WARNING_MESSAGE);
+                        break;
                 }
             } catch (IOException ex) {
                 System.out.println("Bağlantı hatası: " + ex.getMessage());
