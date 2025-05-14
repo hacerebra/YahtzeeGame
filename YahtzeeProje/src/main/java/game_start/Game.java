@@ -265,6 +265,7 @@ public class Game extends javax.swing.JFrame {
                     winMessage.content = msg;  // Kazanma mesajı içerik olarak
                     Client.Send(winMessage);
 
+                    btn_yeni.setEnabled(true);
                 }
 
             }
@@ -820,7 +821,12 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_z5StateChanged
 
     private void btn_yeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_yeniActionPerformed
+        btn_yeni.setEnabled(false);
+        resetGame();
 
+        // Yeni oyun başladığını rakibe bildirmek için Message oluşturuluyor
+        Message msgYeniOyun = new Message(Message.Message_Type.YeniOyun);
+        Client.Send(msgYeniOyun);  // Bu, Client sınıfındaki send metodunu kullanarak mesajı gönderir
 
     }//GEN-LAST:event_btn_yeniActionPerformed
 

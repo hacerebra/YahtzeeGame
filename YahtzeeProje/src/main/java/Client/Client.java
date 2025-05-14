@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -122,6 +123,15 @@ class ListenThread extends Thread {
                     case Kazanma:
                         Login.game.lbl_bitis.setText((String) msg.content);
                         Login.game.btn_yeni.setEnabled(true);
+                        break;
+                    case YeniOyun:
+                        System.out.println("Yeni oyun başlatılıyor...");
+                        // Yeni oyun için gerekli sıfırlamaları yapın
+                        Login.game.btn_yeni.setEnabled(false);
+                        Login.game.zarat_btn.setEnabled(false);
+                        Login.game.resetGame();  // Bu metodu Login.game içerisinde tanımlamanız gerekebilir
+                        // Rakip ekranında "Yeni oyun başladı!" mesajı gösterebilirsiniz
+                        JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
                         break;
                 }
             } catch (IOException ex) {

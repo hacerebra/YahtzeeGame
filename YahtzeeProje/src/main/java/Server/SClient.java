@@ -93,6 +93,9 @@ public class SClient {
                             break;
                         case Kazanma:
                             Server.Send(sclient.rival, msg);
+                        case YeniOyun:
+                            Server.Send(sclient.rival, msg);
+                            break;
 
                     }
                 } catch (IOException ex) {
