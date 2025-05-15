@@ -11,7 +11,7 @@ package Server;
 public class Test {
 
     public static void main(String[] args) {
-        Server.Start(8080);
+        Server.Start(5000);
     }
 
 }

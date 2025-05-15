@@ -4,7 +4,31 @@
     <groupId>com.mycompany</groupId>
     <artifactId>HacerEbra_Ozdemir_2121221045_networklab_2025_proje</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    
+  
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+       
+    </properties>
+    <build>
+        <plugins>
+          
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Server.Test</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.netbeans.external</groupId>
@@ -12,11 +36,4 @@
             <version>RELEASE150</version>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <exec.mainClass>com.mycompany.yahtzeeproje.YahtzeeProje</exec.mainClass>
-    </properties>
-    <name>HacerEbra_Ozdemir_2121221045_networklab_2025_proje</name>
 </project>
