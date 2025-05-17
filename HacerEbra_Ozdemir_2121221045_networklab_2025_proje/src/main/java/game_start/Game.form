@@ -106,8 +106,9 @@
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <Component id="lbl_bitis" min="-2" pref="382" max="-2" attributes="0"/>
+                      <Component id="lbl_bitis" min="-2" pref="357" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -169,12 +170,10 @@
                                   <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
                                   <Component id="zarat_btn" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                  <Component id="lbl_bitis" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lbl_bitis" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1041,7 +1040,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="20" red="4c" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Bitis mesaj&#x131;"/>
+            <Property name="text" type="java.lang.String" value="___________________________________________________"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -1095,7 +1094,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="20" red="4c" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ba&#x11f;lant&#x131; kontrol&#xfc;"/>
+            <Property name="text" type="java.lang.String" value="Rakip bekleniyor..."/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

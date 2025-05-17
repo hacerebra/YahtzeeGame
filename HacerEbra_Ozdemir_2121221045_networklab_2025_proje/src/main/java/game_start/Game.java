@@ -661,7 +661,7 @@ public class Game extends javax.swing.JFrame {
 
         lbl_bitis.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         lbl_bitis.setForeground(new java.awt.Color(76, 32, 165));
-        lbl_bitis.setText("Bitis mesajı");
+        lbl_bitis.setText("___________________________________________________");
 
         btn_yeni.setBackground(new java.awt.Color(255, 255, 102));
         btn_yeni.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -685,7 +685,7 @@ public class Game extends javax.swing.JFrame {
 
         control.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         control.setForeground(new java.awt.Color(76, 32, 165));
-        control.setText("Bağlantı kontrolü");
+        control.setText("Rakip bekleniyor...");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -726,7 +726,8 @@ public class Game extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_bitis, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lbl_bitis, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,10 +775,9 @@ public class Game extends javax.swing.JFrame {
                                 .addComponent(btn_oyun)
                                 .addGap(268, 268, 268)
                                 .addComponent(zarat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(lbl_bitis)))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_bitis)))
                 .addGap(18, 18, 18)
                 .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -898,7 +898,8 @@ public class Game extends javax.swing.JFrame {
 
     private void btn_oyunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_oyunActionPerformed
         // Client servera baglanıyor
-        Client.Start("16.171.150.205", 5000);
+        Client.Start("56.228.28.117", 5000);
+        //Client.Start("127.0.0.1", 4000);
         if (Client.socket == null) {
             JOptionPane.showMessageDialog(this, "Connection Failed !!");
             System.exit(0);
