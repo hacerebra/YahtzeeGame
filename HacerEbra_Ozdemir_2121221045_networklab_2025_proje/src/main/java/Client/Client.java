@@ -38,7 +38,7 @@ public class Client {
             Message msg = new Message(Message.Message_Type.Ad);
             msg.content = Login.txt_ad.getText();
             Client.Send(msg);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -136,11 +136,34 @@ class ListenThread extends Thread {
                         // Rakip ekranında "Yeni oyun başladı!" mesajı gösterebilirsiniz
                         JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
                         break;
-                    case BaglantiKoptu:
+                    /*case BaglantiKoptu:
                         JOptionPane.showMessageDialog(null, msg.content.toString(), "Bağlantı Kesildi", JOptionPane.WARNING_MESSAGE);
                         Login.game.resetGame();
                         Login.game.control.setText("Rakibiniz ayrıldı. Yeni rakip bekleniyor...");
                         Login.game.oyuncu2_lbl.setText("Rakip");
+
+                        break;*/
+                    case BaglantiKoptu:
+                        int choice = JOptionPane.showConfirmDialog(
+                                null,
+                                "Rakibiniz oyundan ayrıldı.\nYeni rakip bağlantısı ister misiniz?",
+                                "Rakip Ayrıldı",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE
+                        );
+
+                        if (choice == JOptionPane.YES_OPTION) {
+                            // Yeni eşleşme sürecini başlatmak için tekrar eşleşmeye dahil et
+                            //Client.Send(new Message(Message.Message_Type.Ad));  // Tekrar ad göndererek eşleşmeye sok
+                            Login.game.resetGame();
+                            Login.game.control.setText("Rakibiniz ayrıldı.");
+                            Login.game.oyuncu2_lbl.setText("Rakip");
+                        } else {
+                            // Oyunu pasif hale getir (oyuncu yeni rakip istemedi)
+                            Login.game.control.setText("Yeni rakip aranmadı. Oyundan çıkabilirsiniz.");
+                            Login.game.zarat_btn.setEnabled(false);
+                            Login.game.btn_yeni.setEnabled(false);
+                        }
 
                         break;
                 }

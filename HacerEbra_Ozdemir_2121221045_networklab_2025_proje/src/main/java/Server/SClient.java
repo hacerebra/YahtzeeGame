@@ -123,6 +123,12 @@ public class SClient {
                         // Rakibin eşleşmesini de sıfırla
                         sclient.rival.rival = null;
                         sclient.rival.paired = false;
+
+                        // Eğer rakibi ayrılan başka bir oyuncu varsa eşleştir.
+                        if (sclient.rival.pairThread == null || !sclient.rival.pairThread.isAlive()) {
+                            sclient.rival.pairThread = sclient.rival.new PairingThread(sclient.rival); // Yeni thread örneği
+                            sclient.rival.pairThread.start(); // Tekrar başlat
+                        }
                     }
                     // Bu client'i listeden sil
                     Server.sclients.remove(sclient);
@@ -148,8 +154,81 @@ public class SClient {
 
         @Override
         public void run() {
+            while (!this.sclient.paired) {
+                try {
+                    // Bağlantı kopmuşsa listeden çıkar ve thread'i bitir
+                    if (sclient.socket.isClosed() || !sclient.socket.isConnected()) {
+                        Server.sclients.remove(sclient);
+                        break;
+                    }
+
+                    Server.pairTwo.acquire();
+
+                    if (!sclient.paired) {
+                        SClient selectedPair = null;
+
+                        for (SClient client : Server.sclients) {
+                            if (client == sclient) {
+                                continue;
+                            }
+
+                            // Rakip bağlantısı kapalıysa listeden çıkar
+                            if (client.socket.isClosed() || !client.socket.isConnected()) {
+                                Server.sclients.remove(client);
+                                continue;
+                            }
+
+                            if (client.rival == null && !client.paired) {
+                                selectedPair = client;
+
+                                // Karşılıklı eşle
+                                selectedPair.rival = sclient;
+                                sclient.rival = selectedPair;
+
+                                selectedPair.paired = true;
+                                sclient.paired = true;
+
+                                // Mesajlar
+                                Message msg1 = new Message(Message.Message_Type.RakipBaglanti);
+                                msg1.content = sclient.name;
+                                Server.Send(selectedPair, msg1);
+
+                                Message msg2 = new Message(Message.Message_Type.RakipBaglanti);
+                                msg2.content = selectedPair.name;
+                                Server.Send(sclient, msg2);
+
+                                Message msg3 = new Message(Message.Message_Type.Kontrol);
+                                msg3.content = 0;
+                                Server.Send(sclient, msg3);
+
+                                Message msg4 = new Message(Message.Message_Type.Kontrol);
+                                msg4.content = 1;
+                                Server.Send(selectedPair, msg4);
+                                break;
+                            }
+                        }
+                    }
+
+                    Server.pairTwo.release();
+
+                    sleep(1000);
+
+                } catch (InterruptedException e) {
+                    System.out.println("PairingThread interrupted.");
+                    break;
+                }
+            }
+
+            // Son kontrol: bağlantısı yoksa listeden çıkar
+            if (!sclient.paired && (sclient.socket.isClosed() || !sclient.socket.isConnected())) {
+                Server.sclients.remove(sclient);
+            }
+        }
+
+        /*public void run() {
             while (this.sclient.paired == false && this.sclient.socket.isConnected()) {
                 try {
+                    
                     //lock mekanizması
                     //sadece bir client içeri grebilir
                     //diğerleri release olana kadar bekler
@@ -201,8 +280,7 @@ public class SClient {
                     System.out.println("Pairing Illegal Thread");
                 }
             }
-        }
-
+        }*/
     }
 
 }

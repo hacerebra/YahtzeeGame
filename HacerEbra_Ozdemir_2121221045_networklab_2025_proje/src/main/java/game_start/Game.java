@@ -898,8 +898,8 @@ public class Game extends javax.swing.JFrame {
 
     private void btn_oyunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_oyunActionPerformed
         // Client servera baglanıyor
-        Client.Start("56.228.28.117", 5000);
-        //Client.Start("127.0.0.1", 4000);
+        //Client.Start("56.228.28.117", 5000);
+        Client.Start("127.0.0.1", 4000);
         if (Client.socket == null) {
             JOptionPane.showMessageDialog(this, "Connection Failed !!");
             System.exit(0);

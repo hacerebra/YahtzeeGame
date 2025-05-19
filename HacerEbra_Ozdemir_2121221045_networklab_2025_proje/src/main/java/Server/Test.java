@@ -11,8 +11,8 @@ package Server;
 public class Test {
 
     public static void main(String[] args) {
-        Server.Start(5000);
-        //Server.Start(4000);
+        //Server.Start(5000);
+        Server.Start(4000);
     }
 
 }
