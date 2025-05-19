@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 public class Zar {
 
     public JLabel label;
-    int value;
+    int value; // Zarın mevcut sayısal değeri (1-6 arası)
     private static int WIDTH = 110, HEIGHT = 110;
 
     public Zar(JLabel label, int value) {
@@ -25,24 +25,28 @@ public class Zar {
         this.label.setIcon(getImageIcon(this.value));
     }
 
+    // Zar değerini rastgele değiştirir (1-6 arasında) ve görseli günceller
     public void shuffle() {
         this.value = new Random().nextInt(6) + 1;
         this.label.setIcon(getImageIcon(this.value));
     }
 
+    // Zarın JLabel bileşenini döner
     public JLabel getLabel() {
         return this.label;
     }
 
+    // Zarın mevcut sayısal değerini döner
     public int getValue() {
         return this.value;
     }
 
+    // Verilen değere uygun zar görselini ImageIcon olarak döner
     public static ImageIcon getImageIcon(int value) {
-        String sourcePath = "src/main/java/images/dice0" + value + ".png";
-        ImageIcon imgIcon = new ImageIcon(sourcePath);
-        Image scale = imgIcon.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_DEFAULT);
-        return new ImageIcon(scale);
+        String zarPath = "src/main/java/images/dice0" + value + ".png";
+        ImageIcon imgIcon = new ImageIcon(zarPath); // ImageIcon oluşturulur
+        Image olcek = imgIcon.getImage().getScaledInstance(WIDTH, HEIGHT, Image.SCALE_DEFAULT);
+        return new ImageIcon(olcek); // Ölçeklenmiş görsel yeni ImageIcon olarak döner
 
     }
 }

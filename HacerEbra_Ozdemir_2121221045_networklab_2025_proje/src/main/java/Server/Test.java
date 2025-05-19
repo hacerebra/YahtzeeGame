@@ -11,6 +11,7 @@ package Server;
 public class Test {
 
     public static void main(String[] args) {
+        // Server'ı verilen portta başlatır ve client bağlantılarını kabul etmeye başlar.
         //Server.Start(5000);
         Server.Start(4000);
     }

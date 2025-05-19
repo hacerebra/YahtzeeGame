@@ -41,6 +41,7 @@ public class Game extends javax.swing.JFrame {
         myPoints = new ArrayList<Score>();
         rivalPoints = new ArrayList<Score>();
         thisGame = this;
+        btn_cikis.setVisible(false);
         btn_yeni.setEnabled(false);
         initScores();
         disableRivalButtons(false);
@@ -314,7 +315,7 @@ public class Game extends javax.swing.JFrame {
         disableRivalButtons(false);
 
         // Yeni bir oyun için her şey sıfırlandı.
-        lbl_bitis.setText("Bitis mesajı");  // Bitmiş oyun mesajlarını temizleme
+        lbl_bitis.setText("___________________________________________________");  // Bitmiş oyun mesajlarını temizleme
 
     }
 
@@ -395,6 +396,7 @@ public class Game extends javax.swing.JFrame {
         btn_yeni = new javax.swing.JButton();
         btn_oyun = new javax.swing.JButton();
         control = new javax.swing.JLabel();
+        btn_cikis = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(781, 708));
@@ -676,7 +678,7 @@ public class Game extends javax.swing.JFrame {
         btn_oyun.setBackground(new java.awt.Color(255, 255, 102));
         btn_oyun.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btn_oyun.setForeground(new java.awt.Color(76, 32, 165));
-        btn_oyun.setText("OYUNA BAŞLA");
+        btn_oyun.setText("RAKİP BUL");
         btn_oyun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_oyunActionPerformed(evt);
@@ -687,6 +689,16 @@ public class Game extends javax.swing.JFrame {
         control.setForeground(new java.awt.Color(76, 32, 165));
         control.setText("Rakip bekleniyor...");
 
+        btn_cikis.setBackground(new java.awt.Color(255, 255, 102));
+        btn_cikis.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btn_cikis.setForeground(new java.awt.Color(76, 32, 165));
+        btn_cikis.setText("ÇIKIŞ");
+        btn_cikis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cikisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -694,39 +706,42 @@ public class Game extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cikis)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(z1))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(z2))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(z3))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(z4))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(z5)))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_yeni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(zarat_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_oyun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(dice01lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(z1))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(dice02lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(z2))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(dice03lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(z3))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(dice04lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(z4))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(dice05lbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(z5)))
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_yeni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(zarat_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_oyun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_bitis, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_bitis, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(25, 25, 25))
         );
         jPanel2Layout.setVerticalGroup(
@@ -779,7 +794,9 @@ public class Game extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_bitis)))
                 .addGap(18, 18, 18)
-                .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(control, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cikis))
                 .addContainerGap())
         );
 
@@ -907,6 +924,10 @@ public class Game extends javax.swing.JFrame {
         btn_oyun.setEnabled(false);
     }//GEN-LAST:event_btn_oyunActionPerformed
 
+    private void btn_cikisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cikisActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btn_cikisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -946,6 +967,7 @@ public class Game extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btn_cikis;
     public javax.swing.JButton btn_oyun;
     public javax.swing.JButton btn_yeni;
     public static javax.swing.JLabel control;

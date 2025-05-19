@@ -20,21 +20,28 @@ import javax.swing.JOptionPane;
  */
 public class Client {
 
+    // Sunucu ile iletişim kurmak için gerekli değişkenler
     public static Socket socket;
     public static ObjectInputStream sInput;
     public static ObjectOutputStream sOutput;
     public static boolean isPaired = false;
     public static ListenThread listen;
 
+    // Sunucuya bağlanmak için başlatma metodu
     public static void Start(String ip, int port) {
         try {
-            // server ve socket baglantilari
+            // IP ve port üzerinden sunucuya bağlanılır
             Client.socket = new Socket(ip, port);
             Client.listen = new ListenThread();
+
+            // Giriş ve çıkış akışları ayarlanır
             Client.sInput = new ObjectInputStream(Client.socket.getInputStream());
             Client.sOutput = new ObjectOutputStream(Client.socket.getOutputStream());
+
+            // Gelen mesajları dinlemek için thread başlatılır
             Client.listen.start();
 
+            // Kullanıcı adını sunucuya gönder
             Message msg = new Message(Message.Message_Type.Ad);
             msg.content = Login.txt_ad.getText();
             Client.Send(msg);
@@ -44,12 +51,14 @@ public class Client {
         }
     }
 
+    // Bağlantıyı düzgün şekilde sonlandıran metod
     public static void Stop() {
         try {
             if (Client.socket != null) {
                 if (Client.listen != null) {
-                    Client.listen.interrupt();  // Thread'i düzgün şekilde sonlandır
+                    Client.listen.interrupt(); // Dinleyici thread'i durdur
                 }
+                // Socket ve stream'leri kapat
                 Client.socket.close();
                 Client.sOutput.flush();  // Çıkış stream'ini temizle
                 Client.sOutput.close();
@@ -60,10 +69,12 @@ public class Client {
         }
     }
 
+    // Konsola mesaj yazdırmak için kullanılan yardımcı metod
     public static void Display(String message) {
         System.out.println(message);
     }
 
+    // Mesajı sunucuya gönderen metod
     public static void Send(Message msg) {
         try {
             Client.sOutput.writeObject(msg);
@@ -75,10 +86,12 @@ public class Client {
 
 }
 
+// Gelen mesajları dinleyen thread sınıfı
 class ListenThread extends Thread {
 
     @Override
     public void run() {
+        // Socket bağlantısı devam ettiği sürece dinleme yapılır
         while (Client.socket.isConnected()) {
             try {
                 Message msg = (Message) Client.sInput.readObject();
@@ -86,6 +99,7 @@ class ListenThread extends Thread {
                     case Ad:
                         break;
                     case RakipBaglanti:
+                        // Rakip bağlantısı gerçekleşti
                         System.out.println("Rakip Bağlantı");
                         String rivalName = (String) msg.content;
                         Client.isPaired = true;
@@ -94,6 +108,7 @@ class ListenThread extends Thread {
                         Login.login.setVisible(false);
                         break;
                     case TurDegis:
+                        // Tur değiştiğinde rakibin skoru güncellenir, sıra oyuncuya geçer
                         System.out.println("Tur değişimi");
                         ScoreMessage score = (ScoreMessage) msg.content;
                         Login.game.getRivalButtonByGivenType(score.score_type).setText(String.valueOf(score.content));
@@ -101,6 +116,7 @@ class ListenThread extends Thread {
                         Login.game.changeTurn(true);
                         break;
                     case Kontrol:
+                        // Tur kontrolü: Oyuncunun sırası mı, rakibin mi?
                         Login.game.roundControl = (int) msg.content;
                         System.out.println((int) msg.content);
                         if ((int) msg.content == 1) {
@@ -110,40 +126,37 @@ class ListenThread extends Thread {
                         }
                         break;
                     case Zarlar:
+                        // Rakip tarafından atılan zarlar oyuncuya gönderilir ve gösterilir
                         ZarMessage gelenZarlar = (ZarMessage) msg.content;
                         for (int i = 0; i < 5; i++) {
                             Login.game.zarlar[i].label.setIcon(Zar.getImageIcon(gelenZarlar.zarlar[i]));
                         }
                         break;
                     case AraToplam:
+                        // Rakibin ara toplam skoru güncellenir
                         Login.game.o2_ara.setText((String) msg.content);
                         break;
                     case Bitis:
+                        // Oyun bitti, toplam skor görüntülenir
                         Login.game.finishState = true;
                         Login.game.o2_toplam.setText((String) msg.content);
                         break;
                     case Kazanma:
+                        // Kazanma durumu mesajı gösterilir, yeni oyun başlatılabilir hale gelir
                         Login.game.lbl_bitis.setText((String) msg.content);
                         Login.game.btn_yeni.setEnabled(true);
                         Login.game.zarat_btn.setEnabled(false);
                         break;
                     case YeniOyun:
+                        // Yeni oyun başlatılıyor
                         System.out.println("Yeni oyun başlatılıyor...");
-                        // Yeni oyun için gerekli sıfırlamaları yapın
                         Login.game.btn_yeni.setEnabled(false);
-                        Login.game.resetGame();  // Bu metodu Login.game içerisinde tanımlamanız gerekebilir
+                        Login.game.resetGame(); // Oyunun iç durumunu sıfırlar
                         Login.game.zarat_btn.setEnabled(false);
-                        // Rakip ekranında "Yeni oyun başladı!" mesajı gösterebilirsiniz
                         JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
                         break;
-                    /*case BaglantiKoptu:
-                        JOptionPane.showMessageDialog(null, msg.content.toString(), "Bağlantı Kesildi", JOptionPane.WARNING_MESSAGE);
-                        Login.game.resetGame();
-                        Login.game.control.setText("Rakibiniz ayrıldı. Yeni rakip bekleniyor...");
-                        Login.game.oyuncu2_lbl.setText("Rakip");
-
-                        break;*/
                     case BaglantiKoptu:
+                        // Rakip bağlantısı koptuğunda oyuncuya sorulur: yeni rakip ister misin?
                         int choice = JOptionPane.showConfirmDialog(
                                 null,
                                 "Rakibiniz oyundan ayrıldı.\nYeni rakip bağlantısı ister misiniz?",
@@ -153,16 +166,19 @@ class ListenThread extends Thread {
                         );
 
                         if (choice == JOptionPane.YES_OPTION) {
-                            // Yeni eşleşme sürecini başlatmak için tekrar eşleşmeye dahil et
-                            //Client.Send(new Message(Message.Message_Type.Ad));  // Tekrar ad göndererek eşleşmeye sok
+                            // Yeni rakip için hazırlık
                             Login.game.resetGame();
                             Login.game.control.setText("Rakibiniz ayrıldı.");
                             Login.game.oyuncu2_lbl.setText("Rakip");
-                        } else {
-                            // Oyunu pasif hale getir (oyuncu yeni rakip istemedi)
-                            Login.game.control.setText("Yeni rakip aranmadı. Oyundan çıkabilirsiniz.");
                             Login.game.zarat_btn.setEnabled(false);
                             Login.game.btn_yeni.setEnabled(false);
+
+                        } else {
+                            // Oyun pasif hale getirilir (oyuncu yeni rakip istemedi)
+                            Login.game.control.setText("Yeni oyun başlatılmadı. Oyundan çıkabilirsiniz.");
+                            Login.game.zarat_btn.setEnabled(false);
+                            Login.game.btn_yeni.setEnabled(false);
+                            Login.game.btn_cikis.setVisible(true);
                         }
 
                         break;

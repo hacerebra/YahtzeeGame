@@ -12,6 +12,7 @@ import javax.swing.JButton;
  *
  * @author hacerebra
  */
+// Skor hesaplama ve buton yönetimi için kullanılan Score sınıfı
 public class Score {
 
     Scores score_type;
@@ -23,18 +24,22 @@ public class Score {
         this.button = button;
     }
 
+    // Skor tipini döndürür
     public Scores getScore_type() {
         return score_type;
     }
 
+    // Skor tipini günceller
     public void setScore_type(Scores score_type) {
         this.score_type = score_type;
     }
 
+    // İlgili butonun referansını döndürür
     public JButton getButton() {
         return button;
     }
 
+    // Skor hesaplama metodu: verilen zar dizisi ve skor tipine göre
     public static int SkorHesaplama(Zar zarlar[], ScoreMessage.Scores score_type) {
         int score = 0;
         switch (score_type) {
@@ -81,6 +86,7 @@ public class Score {
         return score;
     }
 
+    // 1'lerin toplamı
     public static int birler(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -91,6 +97,7 @@ public class Score {
         return result;
     }
 
+    // 2'lerin toplamı
     public static int ikiler(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -101,6 +108,7 @@ public class Score {
         return result;
     }
 
+    // 3'lerin toplamı
     public static int ucler(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -111,6 +119,7 @@ public class Score {
         return result;
     }
 
+    // 4'lerin toplamı
     public static int dortler(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -121,6 +130,7 @@ public class Score {
         return result;
     }
 
+    // 5'lerin toplamı
     public static int besler(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -131,6 +141,7 @@ public class Score {
         return result;
     }
 
+    // 6'ların toplamı
     public static int altilar(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -141,6 +152,7 @@ public class Score {
         return result;
     }
 
+    // Three of a kind
     public static int ucSet(Zar[] zarlar) {
         int[] t = new int[6];
         for (Zar z : zarlar) {
@@ -158,6 +170,7 @@ public class Score {
         return 0;
     }
 
+    // Four of a kind
     public static int dortSet(Zar[] zarlar) {
         int[] t = new int[6];
         for (Zar z : zarlar) {
@@ -175,6 +188,7 @@ public class Score {
         return 0;
     }
 
+    // Full House kontrolü (3 tane aynı + 2 tane aynı)
     public static int fullHouse(Zar[] zarlar) {
         int ones = 0, twos = 0, threes = 0, fours = 0, fives = 0, sixes = 0;
         for (int i = 0; i < 5; i++) {
@@ -208,6 +222,7 @@ public class Score {
         return 0;
     }
 
+    // Küçük Kent (Small Straight) kontrolü: 4 ardışık sayı
     public static int kucukKent(Zar[] zarlar) {
         boolean[] values = new boolean[7]; // 1-6 arası değerler için
 
@@ -224,6 +239,7 @@ public class Score {
         return 0;
     }
 
+    // Büyük Kent (Large Straight) kontrolü: 5 ardışık sayı
     public static int buyukKent(Zar[] zarlar) {
         boolean[] values = new boolean[7];
 
@@ -239,6 +255,7 @@ public class Score {
         return 0;
     }
 
+    // Şans (Chance): zarların toplamı
     public static int sans(Zar[] zarlar) {
         int result = 0;
         for (Zar d : zarlar) {
@@ -247,6 +264,7 @@ public class Score {
         return result;
     }
 
+    // Yahtzee kontrolü: beş zarın tamamı aynı ise 50 puan
     public static int yahtzee(Zar[] zarlar) {
         int ones = 0, twos = 0, threes = 0, fours = 0, fives = 0, sixes = 0;
         for (int i = 0; i < zarlar.length; i++) {

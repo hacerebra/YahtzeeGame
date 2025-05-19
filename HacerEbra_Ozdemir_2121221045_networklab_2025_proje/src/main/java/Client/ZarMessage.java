@@ -8,9 +8,10 @@ package Client;
  *
  * @author hacerebra
  */
+// Oyuncunun attığı zarların değerlerini taşımak için kullanılır
 public class ZarMessage implements java.io.Serializable {
 
-    public int[] zarlar;
+    public int[] zarlar; // Zarların değerlerini tutan tamsayı dizisi
 
     public ZarMessage(int[] zarlar) {
         this.zarlar = zarlar;

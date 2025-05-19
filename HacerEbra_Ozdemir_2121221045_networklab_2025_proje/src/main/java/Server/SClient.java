@@ -19,19 +19,15 @@ import java.util.logging.Logger;
  */
 public class SClient {
 
-    int clientID;
-    Socket socket;
+    int clientID; // Client'in benzersiz ID'si
+    Socket socket; // Client'in bağlantı soketi
     public String name = "NoName";
-    ObjectOutputStream sOutput;
-    ObjectInputStream sInput;
-    // dinleme threadi
-    Listen listenThread;
-    // eslesme threadi
-    PairingThread pairThread;
-    //rakip client
-    SClient rival;
-    //eşleşme durumu
-    public boolean paired = false;
+    ObjectOutputStream sOutput; // Mesaj gönderme için ObjectOutputStream
+    ObjectInputStream sInput; // Mesaj alma için ObjectInputStream
+    Listen listenThread; // Mesajları dinlemek için oluşturulan thread
+    PairingThread pairThread; // Rakip eşlemesi yapmak için oluşturulan thread
+    SClient rival; // Rakip client (eşleşmiş client)
+    public boolean paired = false; // Eşleşme durumu
 
     public SClient(int clientID, Socket socket) {
         try {
@@ -47,7 +43,7 @@ public class SClient {
 
     }
 
-    //client mesaj gönderme
+    // Client'a mesaj göndermek için kullanılan metot
     public void Send(Message message) {
         try {
             this.sOutput.writeObject(message);
@@ -57,6 +53,7 @@ public class SClient {
 
     }
 
+    // Client mesajlarını dinleyen thread sınıfı. Gelen mesajları okuyup uygun işlemi yapar
     public class Listen extends Thread {
 
         SClient sclient;
@@ -67,21 +64,22 @@ public class SClient {
 
         @Override
         public void run() {
+            // Client bağlantısı devam ettiği sürece döngü devam eder
             while (sclient.socket.isConnected()) {
-
                 try {
-                    Message msg = (Message) sclient.sInput.readObject();
-                    switch (msg.type) {
-                        case Ad:
+                    Message msg = (Message) sclient.sInput.readObject(); // Gelen mesajı al
+                    switch (msg.type) { // Mesaj tipine göre işlem yap
+                        case Ad: // Client ismini alır ve eşleştirme threadini başlatır
                             sclient.name = msg.content.toString();
                             if (!sclient.pairThread.isAlive()) {
                                 sclient.pairThread.start();
                             }
                             break;
-                        case TurDegis:
+                        case TurDegis: // Tur değişimini rakip client'a gönder
                             sclient.rival.Send(msg);
                             System.out.println("Tur degistirdi.");
                             break;
+                        // Bu mesaj tiplerini doğrudan rakibe ilet
                         case Kontrol:
                             Server.Send(sclient.rival, msg);
                             break;
@@ -107,30 +105,30 @@ public class SClient {
                 } catch (IOException ex) {
                     System.out.println("Listen Thread Exception");
 
-                    // Client bağlantısını kapat
+                    // Bağlantı kopunca soketi kapat
                     try {
                         sclient.socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    // Rakibi varsa rakibini bilgilendir
+                    // Rakip varsa ona bağlantı koptu mesajı gönder
                     if (sclient.rival != null) {
                         Message disconnectMsg = new Message(Message.Message_Type.BaglantiKoptu);
                         disconnectMsg.content = "Rakibiniz oyundan ayrıldı.";
                         Server.Send(sclient.rival, disconnectMsg);
 
-                        // Rakibin eşleşmesini de sıfırla
+                        // Rakibin eşleşme durumunu sıfırla
                         sclient.rival.rival = null;
                         sclient.rival.paired = false;
 
-                        // Eğer rakibi ayrılan başka bir oyuncu varsa eşleştir.
+                        // Rakip eşleşme threadini yeniden başlat (eğer kapalıysa)
                         if (sclient.rival.pairThread == null || !sclient.rival.pairThread.isAlive()) {
                             sclient.rival.pairThread = sclient.rival.new PairingThread(sclient.rival); // Yeni thread örneği
                             sclient.rival.pairThread.start(); // Tekrar başlat
                         }
                     }
-                    // Bu client'i listeden sil
+                    // Client listeden çıkarılır
                     Server.sclients.remove(sclient);
                     // Thread'den çık
                     break;
@@ -144,6 +142,7 @@ public class SClient {
 
     }
 
+    // Client eşleştirmesini sağlayan thread sınıfı. Henüz eşleşmemiş client'lar için uygun rakip arar ve eşleştirir.
     public class PairingThread extends Thread {
 
         SClient sclient;
@@ -154,6 +153,7 @@ public class SClient {
 
         @Override
         public void run() {
+            // Client eşleşene kadar döngü devam eder
             while (!this.sclient.paired) {
                 try {
                     // Bağlantı kopmuşsa listeden çıkar ve thread'i bitir
@@ -162,22 +162,25 @@ public class SClient {
                         break;
                     }
 
-                    Server.pairTwo.acquire();
+                    // Eşleştirme için semafor alınır (eşzamanlı erişim kontrolü)
+                    Server.esler.acquire();
 
                     if (!sclient.paired) {
                         SClient selectedPair = null;
 
+                        // Server'daki client listesinde uygun rakip ara
                         for (SClient client : Server.sclients) {
                             if (client == sclient) {
                                 continue;
                             }
 
-                            // Rakip bağlantısı kapalıysa listeden çıkar
+                            // Bağlantısı kopanları listeden çıkar
                             if (client.socket.isClosed() || !client.socket.isConnected()) {
                                 Server.sclients.remove(client);
                                 continue;
                             }
 
+                            // Rakipsiz ve eşleşmemiş client bulunursa seç
                             if (client.rival == null && !client.paired) {
                                 selectedPair = client;
 
@@ -188,7 +191,7 @@ public class SClient {
                                 selectedPair.paired = true;
                                 sclient.paired = true;
 
-                                // Mesajlar
+                                // Eşleşme mesajlarını karşılıklı gönder
                                 Message msg1 = new Message(Message.Message_Type.RakipBaglanti);
                                 msg1.content = sclient.name;
                                 Server.Send(selectedPair, msg1);
@@ -197,6 +200,7 @@ public class SClient {
                                 msg2.content = selectedPair.name;
                                 Server.Send(sclient, msg2);
 
+                                // Oyunun kontrol mesajları
                                 Message msg3 = new Message(Message.Message_Type.Kontrol);
                                 msg3.content = 0;
                                 Server.Send(sclient, msg3);
@@ -209,7 +213,8 @@ public class SClient {
                         }
                     }
 
-                    Server.pairTwo.release();
+                    // Semafor serbest bırakılır
+                    Server.esler.release();
 
                     sleep(1000);
 
@@ -219,68 +224,10 @@ public class SClient {
                 }
             }
 
-            // Son kontrol: bağlantısı yoksa listeden çıkar
+            // Döngüden çıkınca, bağlantı kopuksa listeden çıkar
             if (!sclient.paired && (sclient.socket.isClosed() || !sclient.socket.isConnected())) {
                 Server.sclients.remove(sclient);
             }
         }
-
-        /*public void run() {
-            while (this.sclient.paired == false && this.sclient.socket.isConnected()) {
-                try {
-                    
-                    //lock mekanizması
-                    //sadece bir client içeri grebilir
-                    //diğerleri release olana kadar bekler
-                    Server.pairTwo.acquire(1);
-
-                    //client eğer eşleşmemişse 
-                    if (!sclient.paired) {
-                        SClient selectedPair = null;
-                        while (selectedPair == null && this.sclient.socket.isConnected()) {
-                            for (SClient client : Server.sclients) {
-                                if (sclient != client && client.rival == null) {
-                                    selectedPair = client;
-                                    selectedPair.paired = true;
-                                    selectedPair.rival = sclient;
-                                    sclient.rival = selectedPair;
-                                    sclient.paired = true;
-
-                                    // eşleşme oldu
-                                    Message msg1 = new Message(Message.Message_Type.RakipBaglanti);
-                                    msg1.content = sclient.name;
-                                    Server.Send(sclient.rival, msg1);
-
-                                    Message msg2 = new Message(Message.Message_Type.RakipBaglanti);
-                                    msg2.content = sclient.rival.name;
-                                    Server.Send(sclient, msg2);
-
-                                    Message msg3 = new Message(Message.Message_Type.Kontrol);
-                                    int a = 0;
-                                    msg3.content = a;
-                                    Server.Send(sclient, msg3);
-
-                                    Message msg4 = new Message(Message.Message_Type.Kontrol);
-                                    int b = 1;
-                                    msg4.content = b;
-                                    Server.Send(sclient.rival, msg4);
-                                    break;
-                                }
-                            }
-                            //sürekli dönmesin 1 saniyede bir dönsün
-                            sleep(1000);
-                        }
-                    }
-                    //lock mekanizmasını servest bırak
-                    //bırakılmazsa deadlock olur.
-                    Server.pairTwo.release(1);
-                } catch (InterruptedException ex) {
-                    System.out.println("Pairing Thread Exception");
-                } catch (IllegalThreadStateException te) {
-                    System.out.println("Pairing Illegal Thread");
-                }
-            }
-        }*/
     }
-
 }

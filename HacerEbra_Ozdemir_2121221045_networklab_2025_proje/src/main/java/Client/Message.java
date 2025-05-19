@@ -10,15 +10,24 @@ package Client;
  */
 public class Message implements java.io.Serializable {
 
-    //mesaj tipleri enum 
+    // Farklı mesaj türlerini temsil eden enum (mesajın ne tür bilgi taşıdığını belirtir)
     public static enum Message_Type {
-        Ad, RakipBaglanti, TurDegis, Kontrol, AraToplam, Bitis, Zarlar, Kazanma, YeniOyun, BaglantiKoptu
+        Ad, // Oyuncunun kullanıcı adını taşıyan mesaj
+        RakipBaglanti, // Rakiple bağlantı kurulduğunu bildiren mesaj
+        TurDegis, // Tur değişimini bildiren mesaj
+        Kontrol, // Oyuncunun sırası mı değil mi kontrolü
+        AraToplam, // Ara toplam puan bilgisini ileten mesaj
+        Bitis, // Oyunun bittiğini belirten mesaj
+        Zarlar, // Zar değerlerini içeren mesaj
+        Kazanma, // Oyunun kazananını belirten mesaj
+        YeniOyun, // Yeni oyun başlatıldığını bildiren mesaj
+        BaglantiKoptu    // Rakibin bağlantısı koptuğunda gönderilen mesaj
     }
 
-    //mesajın tipi
+    // Mesajın tipi
     public Message_Type type;
 
-    //mesajın içeriği obje tipinde ki istenilen tip içerik yüklenebilsin
+    // Mesajın içeriği
     public Object content;
 
     public Message(Message_Type t) {
