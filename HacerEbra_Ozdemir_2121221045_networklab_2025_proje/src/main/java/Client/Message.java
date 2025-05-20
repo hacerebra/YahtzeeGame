@@ -21,7 +21,7 @@ public class Message implements java.io.Serializable {
         Zarlar, // Zar değerlerini içeren mesaj
         Kazanma, // Oyunun kazananını belirten mesaj
         YeniOyun, // Yeni oyun başlatıldığını bildiren mesaj
-        BaglantiKoptu    // Rakibin bağlantısı koptuğunda gönderilen mesaj
+        BaglantiKoptu, // Rakibin bağlantısı koptuğunda gönderilen mesaj
     }
 
     // Mesajın tipi

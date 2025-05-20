@@ -147,13 +147,37 @@ class ListenThread extends Thread {
                         Login.game.btn_yeni.setEnabled(true);
                         Login.game.zarat_btn.setEnabled(false);
                         break;
-                    case YeniOyun:
+                    /*case YeniOyun:
                         // Yeni oyun başlatılıyor
                         System.out.println("Yeni oyun başlatılıyor...");
                         Login.game.btn_yeni.setEnabled(false);
                         Login.game.resetGame(); // Oyunun iç durumunu sıfırlar
                         Login.game.zarat_btn.setEnabled(false);
                         JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
+                        break;*/
+                    case YeniOyun:
+                        int secim = JOptionPane.showConfirmDialog(
+                                null,
+                                "Rakibiniz yeni oyun başlatmak istiyor.\nYeni oyunu onaylıyor musunuz?",
+                                "Yeni Oyun İsteği",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE
+                        );
+                        if (secim == JOptionPane.YES_OPTION) {
+                            System.out.println("Yeni oyun başlatılıyor...");
+                            Login.game.btn_yeni.setEnabled(false);
+                            Login.game.resetGame(); // Oyunun iç durumunu sıfırlar
+                            Login.game.zarat_btn.setEnabled(false);
+                            JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            // Oyun pasif hale getirilir (oyuncu yeni rakip istemedi)
+                            Login.game.control.setText("Yeni oyun başlatılmadı. Oyundan çıkabilirsiniz.");
+                            Login.game.zarat_btn.setEnabled(false);
+                            Login.game.btn_yeni.setEnabled(false);
+                            Login.game.btn_cikis.setVisible(true);
+                        }
+
                         break;
                     case BaglantiKoptu:
                         // Rakip bağlantısı koptuğunda oyuncuya sorulur: yeni rakip ister misin?
