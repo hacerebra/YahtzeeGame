@@ -22,10 +22,10 @@ public class Client {
 
     // Sunucu ile iletişim kurmak için gerekli değişkenler
     public static Socket socket;
-    public static ObjectInputStream sInput;
-    public static ObjectOutputStream sOutput;
-    public static boolean isPaired = false;
-    public static ListenThread listen;
+    public static ObjectInputStream sInput; // Sunucudan veri almak için
+    public static ObjectOutputStream sOutput; // Sunucuya veri göndermek için
+    public static boolean isPaired = false; // Oyuncunun eşleşip eşleşmediğini tutar
+    public static ListenThread listen; // Sunucudan gelen mesajları dinleyen thread
 
     // Sunucuya bağlanmak için başlatma metodu
     public static void Start(String ip, int port) {
@@ -94,7 +94,7 @@ class ListenThread extends Thread {
         // Socket bağlantısı devam ettiği sürece dinleme yapılır
         while (Client.socket.isConnected()) {
             try {
-                Message msg = (Message) Client.sInput.readObject();
+                Message msg = (Message) Client.sInput.readObject(); // Sunucudan gelen mesajı oku
                 switch (msg.type) {
                     case Ad:
                         break;
@@ -111,18 +111,18 @@ class ListenThread extends Thread {
                         // Tur değiştiğinde rakibin skoru güncellenir, sıra oyuncuya geçer
                         System.out.println("Tur değişimi");
                         ScoreMessage score = (ScoreMessage) msg.content;
-                        Login.game.getRivalButtonByGivenType(score.score_type).setText(String.valueOf(score.content));
-                        Login.game.roundControl = 1;
-                        Login.game.changeTurn(true);
+                        Login.game.getRivalButton(score.score_type).setText(String.valueOf(score.content));
+                        Login.game.sıra = 1;
+                        Login.game.turDegisimi(true);
                         break;
                     case Kontrol:
                         // Tur kontrolü: Oyuncunun sırası mı, rakibin mi?
-                        Login.game.roundControl = (int) msg.content;
+                        Login.game.sıra = (int) msg.content;
                         System.out.println((int) msg.content);
                         if ((int) msg.content == 1) {
-                            Login.game.changeTurn(true);
+                            Login.game.turDegisimi(true);
                         } else if ((int) msg.content == 0) {
-                            Login.game.changeTurn(false);
+                            Login.game.turDegisimi(false);
                         }
                         break;
                     case Zarlar:
@@ -147,15 +147,8 @@ class ListenThread extends Thread {
                         Login.game.btn_yeni.setEnabled(true);
                         Login.game.zarat_btn.setEnabled(false);
                         break;
-                    /*case YeniOyun:
-                        // Yeni oyun başlatılıyor
-                        System.out.println("Yeni oyun başlatılıyor...");
-                        Login.game.btn_yeni.setEnabled(false);
-                        Login.game.resetGame(); // Oyunun iç durumunu sıfırlar
-                        Login.game.zarat_btn.setEnabled(false);
-                        JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
-                        break;*/
                     case YeniOyun:
+                        // Yeni oyun isteği geldiğinde kullanıcıya sorulur
                         int secim = JOptionPane.showConfirmDialog(
                                 null,
                                 "Rakibiniz yeni oyun başlatmak istiyor.\nYeni oyunu onaylıyor musunuz?",
@@ -163,15 +156,14 @@ class ListenThread extends Thread {
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE
                         );
-                        if (secim == JOptionPane.YES_OPTION) {
+                        if (secim == JOptionPane.YES_OPTION) {  // Yeni oyun başlatılır
                             System.out.println("Yeni oyun başlatılıyor...");
                             Login.game.btn_yeni.setEnabled(false);
                             Login.game.resetGame(); // Oyunun iç durumunu sıfırlar
                             Login.game.zarat_btn.setEnabled(false);
                             JOptionPane.showMessageDialog(null, "Yeni oyun başladı!", "Oyun Başladı", JOptionPane.INFORMATION_MESSAGE);
 
-                        } else {
-                            // Oyun pasif hale getirilir (oyuncu yeni rakip istemedi)
+                        } else {  // Kullanıcı yeni oyunu reddetti
                             Login.game.control.setText("Yeni oyun başlatılmadı. Oyundan çıkabilirsiniz.");
                             Login.game.zarat_btn.setEnabled(false);
                             Login.game.btn_yeni.setEnabled(false);
@@ -192,14 +184,14 @@ class ListenThread extends Thread {
                         if (choice == JOptionPane.YES_OPTION) {
                             // Yeni rakip için hazırlık
                             Login.game.resetGame();
-                            Login.game.control.setText("Rakibiniz ayrıldı.");
+                            Login.game.control.setText("Rakibiniz ayrıldı. Yeni rakip bekleniyor...");
                             Login.game.oyuncu2_lbl.setText("Rakip");
                             Login.game.zarat_btn.setEnabled(false);
                             Login.game.btn_yeni.setEnabled(false);
 
                         } else {
-                            // Oyun pasif hale getirilir (oyuncu yeni rakip istemedi)
-                            Login.game.control.setText("Yeni oyun başlatılmadı. Oyundan çıkabilirsiniz.");
+                            // Kullanıcı yeni rakip istemedi
+                            Login.game.control.setText("Yeni rakip aranmadı. Oyundan çıkabilirsiniz.");
                             Login.game.zarat_btn.setEnabled(false);
                             Login.game.btn_yeni.setEnabled(false);
                             Login.game.btn_cikis.setVisible(true);

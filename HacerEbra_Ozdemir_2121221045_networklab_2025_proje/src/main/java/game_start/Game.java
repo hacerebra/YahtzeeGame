@@ -25,38 +25,47 @@ public class Game extends javax.swing.JFrame {
 
     public static Game thisGame;
 
-    public boolean finishState = false;
-    // kimin baslayacagının controlü (1 olan baslar)
-    public int roundControl;
-    public static ArrayList<Score> myPoints;
-    public static ArrayList<Score> rivalPoints;
-
-    public Zar zarlar[] = new Zar[5];
-    // Random atılan zarların sayı değerlerinin dizisi
-    public int[] rolledDices = new int[6];
-    int rollCount = 0;
+    public boolean finishState = false; // Oyun bitiş durumu
+    public int sıra; // Oyuncu sırasını belirten kontrol (1 olan başlar)
+    // Oyuncu ve rakibin skorlarını tutan listeler
+    public static ArrayList<Score> skorlar;
+    public static ArrayList<Score> rakipSkorlar;
+    public Zar zarlar[] = new Zar[5]; // 5 zar nesnesi
+    int rollCount = 0; // Aynı tur içinde kaç kez zar atıldığını tutar
 
     public Game() {
         initComponents();
-        myPoints = new ArrayList<Score>();
-        rivalPoints = new ArrayList<Score>();
+        skorlar = new ArrayList<Score>();
+        rakipSkorlar = new ArrayList<Score>();
         thisGame = this;
         btn_cikis.setVisible(false);
         btn_yeni.setEnabled(false);
         initScores();
-        disableRivalButtons(false);
+        disableRivalButtons(false); // Rakip butonları devre dışı
         zarlar[0] = new Zar(dice01lbl, 1);
         zarlar[1] = new Zar(dice02lbl, 2);
         zarlar[2] = new Zar(dice03lbl, 3);
         zarlar[3] = new Zar(dice04lbl, 4);
         zarlar[4] = new Zar(dice05lbl, 5);
-
         revalidate();
     }
 
-    public Score getMyButtonByGivenType(Scores score_type) {
-        // Verilen score türüne göre score objemi döndür
-        for (Score myPoint : myPoints) {
+    public void setOyuncuAdi(String oyuncuAdi) {
+        oyuncu1_lbl.setText("Sen (" + oyuncuAdi + ")");
+        oyuncu2_lbl.setText("Rakip");
+
+        // Zar ve butonları devre dışı bırak
+        zarat_btn.setEnabled(false);
+        z1.setEnabled(false);
+        z2.setEnabled(false);
+        z3.setEnabled(false);
+        z4.setEnabled(false);
+        z5.setEnabled(false);
+    }
+
+    // Belirli bir skor türüne karşılık gelen kendi butonunu döndür
+    public Score getMyButton(Scores score_type) {
+        for (Score myPoint : skorlar) {
             if (myPoint.getScore_type() == score_type) {
                 return myPoint;
             }
@@ -64,9 +73,10 @@ public class Game extends javax.swing.JFrame {
         return null;
     }
 
-    public JButton getRivalButtonByGivenType(Scores score_type) {
+    // Rakibin belirli skor türüne karşılık gelen butonunu döndür
+    public JButton getRivalButton(Scores score_type) {
         // Verilen score türüne göre rakibin butonuna erişmek için
-        for (Score rivalPoint : rivalPoints) {
+        for (Score rivalPoint : rakipSkorlar) {
             if (rivalPoint.getScore_type() == score_type) {
                 return rivalPoint.getButton();
             }
@@ -74,46 +84,47 @@ public class Game extends javax.swing.JFrame {
         return null;
     }
 
+    // Skor butonlarını başlatır
     public void initScores() {
 
-        // player 1 score
-        myPoints.add(new Score(Scores.Birler, o1_1));
-        myPoints.add(new Score(Scores.Ikiler, o1_2));
-        myPoints.add(new Score(Scores.Ucler, o1_3));
-        myPoints.add(new Score(Scores.Dortler, o1_4));
-        myPoints.add(new Score(Scores.Besler, o1_5));
-        myPoints.add(new Score(Scores.Altilar, o1_6));
-        myPoints.add(new Score(Scores.UcSet, o1_7));
-        myPoints.add(new Score(Scores.DortSet, o1_8));
-        myPoints.add(new Score(Scores.FullHouse, o1_9));
-        myPoints.add(new Score(Scores.KucukKent, o1_10));
-        myPoints.add(new Score(Scores.BuyukKent, o1_11));
-        myPoints.add(new Score(Scores.Sans, o1_12));
-        myPoints.add(new Score(Scores.Yahtzee, o1_13));
+        // Oyuncu 1 skorları
+        skorlar.add(new Score(Scores.Birler, o1_1));
+        skorlar.add(new Score(Scores.Ikiler, o1_2));
+        skorlar.add(new Score(Scores.Ucler, o1_3));
+        skorlar.add(new Score(Scores.Dortler, o1_4));
+        skorlar.add(new Score(Scores.Besler, o1_5));
+        skorlar.add(new Score(Scores.Altilar, o1_6));
+        skorlar.add(new Score(Scores.UcSet, o1_7));
+        skorlar.add(new Score(Scores.DortSet, o1_8));
+        skorlar.add(new Score(Scores.FullHouse, o1_9));
+        skorlar.add(new Score(Scores.KucukKent, o1_10));
+        skorlar.add(new Score(Scores.BuyukKent, o1_11));
+        skorlar.add(new Score(Scores.Sans, o1_12));
+        skorlar.add(new Score(Scores.Yahtzee, o1_13));
 
-        // player 2 scores
-        rivalPoints.add(new Score(Scores.Birler, o2_1));
-        rivalPoints.add(new Score(Scores.Ikiler, o2_2));
-        rivalPoints.add(new Score(Scores.Ucler, o2_3));
-        rivalPoints.add(new Score(Scores.Dortler, o2_4));
-        rivalPoints.add(new Score(Scores.Besler, o2_5));
-        rivalPoints.add(new Score(Scores.Altilar, o2_6));
-        rivalPoints.add(new Score(Scores.UcSet, o2_7));
-        rivalPoints.add(new Score(Scores.DortSet, o2_8));
-        rivalPoints.add(new Score(Scores.FullHouse, o2_9));
-        rivalPoints.add(new Score(Scores.KucukKent, o2_10));
-        rivalPoints.add(new Score(Scores.BuyukKent, o2_11));
-        rivalPoints.add(new Score(Scores.Sans, o2_12));
-        rivalPoints.add(new Score(Scores.Yahtzee, o2_13));
+        // Oyuncu 2 skorları
+        rakipSkorlar.add(new Score(Scores.Birler, o2_1));
+        rakipSkorlar.add(new Score(Scores.Ikiler, o2_2));
+        rakipSkorlar.add(new Score(Scores.Ucler, o2_3));
+        rakipSkorlar.add(new Score(Scores.Dortler, o2_4));
+        rakipSkorlar.add(new Score(Scores.Besler, o2_5));
+        rakipSkorlar.add(new Score(Scores.Altilar, o2_6));
+        rakipSkorlar.add(new Score(Scores.UcSet, o2_7));
+        rakipSkorlar.add(new Score(Scores.DortSet, o2_8));
+        rakipSkorlar.add(new Score(Scores.FullHouse, o2_9));
+        rakipSkorlar.add(new Score(Scores.KucukKent, o2_10));
+        rakipSkorlar.add(new Score(Scores.BuyukKent, o2_11));
+        rakipSkorlar.add(new Score(Scores.Sans, o2_12));
+        rakipSkorlar.add(new Score(Scores.Yahtzee, o2_13));
 
         addEventListenerToButtons();
     }
 
-    public void changeTurn(boolean control) {
-
-        // Benim sıramda iken clientın erişimi engellenir
+    // Tur değiştirildiğinde arayüz durumunu güncelle
+    public void turDegisimi(boolean control) {
         zarat_btn.setEnabled(control);
         rollCount = 0;
+        // Zar seçme kutularını sıfırla
         z1.setSelected(false);
         z2.setSelected(false);
         z3.setSelected(false);
@@ -125,21 +136,21 @@ public class Game extends javax.swing.JFrame {
         z4.setEnabled(false);
         z5.setEnabled(false);
 
-        // Zarların aktifligini tur degisimlerinde kontrol et
+        // Zar label'larının aktifliğini kontrol et
         for (Zar zar : zarlar) {
             zar.getLabel().setEnabled(control);
         }
 
-        // player1 buttons
-        for (Score myPoint : myPoints) {
+        // Skor butonlarını aktif et
+        for (Score myPoint : skorlar) {
             if (!myPoint.isButtonChoosen) {
                 myPoint.getButton().setEnabled(control);
             }
         }
     }
 
+    // Rakip skor butonlarını etkin/pasif yap
     public void disableRivalButtons(boolean control) {
-        // player1 buttons
         o2_1.setEnabled(control);
         o2_2.setEnabled(control);
         o2_3.setEnabled(control);
@@ -155,35 +166,9 @@ public class Game extends javax.swing.JFrame {
         o2_13.setEnabled(control);
     }
 
-    public void addEventListenerToButtons() {
-        for (Score myPoint : myPoints) {
-            myPoint.getButton().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    if (roundControl == 1 && rollCount > 0) {
-                        ScoreMessage score = new ScoreMessage(myPoint.getScore_type());
-                        try {
-                            score.content = Integer.parseInt(myPoint.getButton().getText());
-                        } catch (Exception e) {
-                            myPoint.getButton().setText("0");
-                            score.content = 0;
-                        }
-                        roundControl = 0;
-                        myPoint.isButtonChoosen = true;
-                        Message msg = new Message(Message.Message_Type.TurDegis);
-                        msg.content = score;
-                        Client.Send(msg);
-                        System.out.println("Client mesajı yollandı");
-                        araToplam();
-                        disableButtons();
-                    }
-                }
-            });
-        }
-    }
-
+    // Tüm skor butonlarını devre dışı bırak
     public void disableButtons() {
-        for (Score myPoint : myPoints) {
+        for (Score myPoint : skorlar) {
             if (!myPoint.isButtonChoosen) {
                 myPoint.getButton().setText("-");
             }
@@ -192,62 +177,100 @@ public class Game extends javax.swing.JFrame {
         zarat_btn.setEnabled(false);
     }
 
-    public void araToplam() {
+    // Skor butonlarına tıklama olaylarını dinleyen ActionListener'ları ekler
+    public void addEventListenerToButtons() {
+        for (Score myPoint : skorlar) {
+            myPoint.getButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    if (sıra == 1 && rollCount > 0) {
+                        ScoreMessage score = new ScoreMessage(myPoint.getScore_type());
+                        try {
+                            score.content = Integer.parseInt(myPoint.getButton().getText());
+                        } catch (Exception e) {
+                            myPoint.getButton().setText("0");
+                            score.content = 0;
+                        }
+                        sıra = 0;
+                        myPoint.isButtonChoosen = true;
+
+                        // Rakibe sıra geçtiğini bildir
+                        Message msg = new Message(Message.Message_Type.TurDegis);
+                        msg.content = score;
+                        Client.Send(msg);
+                        System.out.println("Client mesajı yollandı");
+                        oyunSonu(); // Ara toplam ve oyun sonu kontrolü
+                        disableButtons(); // Butonları devre dışı bırak
+                    }
+                }
+            });
+        }
+    }
+
+    // Ara toplam ve oyun bitiş kontrolünü yapar
+    public void oyunSonu() {
         int araToplam = 0;
         int araToplamSon = 0;
         int sonToplam = 0;
-        if (getMyButtonByGivenType(Scores.Birler).isButtonChoosen
-                && getMyButtonByGivenType(Scores.Ikiler).isButtonChoosen
-                && getMyButtonByGivenType(Scores.Ucler).isButtonChoosen
-                && getMyButtonByGivenType(Scores.Dortler).isButtonChoosen
-                && getMyButtonByGivenType(Scores.Besler).isButtonChoosen
-                && getMyButtonByGivenType(Scores.Altilar).isButtonChoosen) {
 
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Birler).getButton().getText());
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Ikiler).getButton().getText());
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Ucler).getButton().getText());
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Dortler).getButton().getText());
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Besler).getButton().getText());
-            araToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Altilar).getButton().getText());
+        // Eğer tüm üst kısım skorları seçildiyse
+        if (getMyButton(Scores.Birler).isButtonChoosen
+                && getMyButton(Scores.Ikiler).isButtonChoosen
+                && getMyButton(Scores.Ucler).isButtonChoosen
+                && getMyButton(Scores.Dortler).isButtonChoosen
+                && getMyButton(Scores.Besler).isButtonChoosen
+                && getMyButton(Scores.Altilar).isButtonChoosen) {
 
+            // Üst skorların toplamını al
+            araToplam += Integer.parseInt(getMyButton(Scores.Birler).getButton().getText());
+            araToplam += Integer.parseInt(getMyButton(Scores.Ikiler).getButton().getText());
+            araToplam += Integer.parseInt(getMyButton(Scores.Ucler).getButton().getText());
+            araToplam += Integer.parseInt(getMyButton(Scores.Dortler).getButton().getText());
+            araToplam += Integer.parseInt(getMyButton(Scores.Besler).getButton().getText());
+            araToplam += Integer.parseInt(getMyButton(Scores.Altilar).getButton().getText());
+
+            // 63'ten büyükse 35 bonus ekle
             if (araToplam >= 63) {
                 araToplamSon = araToplam + 35;
                 o1_bonus.setText("35");
-                o1_ara.setText(String.valueOf(araToplamSon));
             } else {
                 araToplamSon = araToplam;
                 o1_bonus.setText("0");
-                o1_ara.setText(String.valueOf(araToplamSon));
             }
+            o1_ara.setText(String.valueOf(araToplamSon));
 
+            // Ara toplamı rakibe gönder
             Message aratoplamMsg = new Message(Message.Message_Type.AraToplam);
             aratoplamMsg.content = o1_ara.getText();
             Client.Send(aratoplamMsg);
 
-            // TOTAL SCORE CONTROLS 
-            if (getMyButtonByGivenType(Scores.UcSet).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.DortSet).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.FullHouse).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.KucukKent).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.BuyukKent).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.Sans).isButtonChoosen
-                    && getMyButtonByGivenType(Scores.Yahtzee).isButtonChoosen) {
+            // Alt bölüm skorları da tamamsa oyun bitti
+            if (getMyButton(Scores.UcSet).isButtonChoosen
+                    && getMyButton(Scores.DortSet).isButtonChoosen
+                    && getMyButton(Scores.FullHouse).isButtonChoosen
+                    && getMyButton(Scores.KucukKent).isButtonChoosen
+                    && getMyButton(Scores.BuyukKent).isButtonChoosen
+                    && getMyButton(Scores.Sans).isButtonChoosen
+                    && getMyButton(Scores.Yahtzee).isButtonChoosen) {
 
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.UcSet).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.DortSet).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.FullHouse).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.KucukKent).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.BuyukKent).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Sans).getButton().getText());
-                sonToplam += Integer.parseInt(getMyButtonByGivenType(Scores.Yahtzee).getButton().getText());
+                // Alt skorların toplamı
+                sonToplam += Integer.parseInt(getMyButton(Scores.UcSet).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.DortSet).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.FullHouse).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.KucukKent).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.BuyukKent).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.Sans).getButton().getText());
+                sonToplam += Integer.parseInt(getMyButton(Scores.Yahtzee).getButton().getText());
 
-                // Total score hesaplandıktan sonra cliente mesaj olarak gönder
-                sonToplam += araToplamSon;
+                sonToplam += araToplamSon; // Toplam skor
                 o1_toplam.setText(String.valueOf(sonToplam));
+
+                // Bitiş mesajı gönder
                 Message finishMsg = new Message(Message.Message_Type.Bitis);
                 finishMsg.content = o1_toplam.getText();
                 Client.Send(finishMsg);
 
+                // Her iki taraf da oyunu bitirdiyse kazananı belirle
                 if (finishState) {
                     int sonToplam2 = Integer.parseInt(o2_toplam.getText());
                     String finishStr = "";
@@ -256,15 +279,13 @@ public class Game extends javax.swing.JFrame {
                     if (sonToplam > sonToplam2) {
                         finishStr = "Sen Kazandın !! Senin skorun: " + sonToplam + " Rakip skor: " + sonToplam2;
                         msg = "Rakibin kazandı :(  Senin skor: " + sonToplam2 + " Rakip Skor: " + sonToplam;
-                        lbl_bitis.setText(finishStr);
-
                     } else if (sonToplam2 > sonToplam) {
                         finishStr = "Rakibin kazandı :( Rakip Skor: " + sonToplam2 + " Senin skorun: " + sonToplam;
                         msg = "Sen Kazandın !! Rakip Skor: " + sonToplam + " Senin skorun: " + sonToplam2;
-                        lbl_bitis.setText(finishStr);
-
                     }
-                    // Sonuç mesajını Client'a gönder
+                    lbl_bitis.setText(finishStr);
+
+                    // Kazanma mesajını Client'a gönder
                     Message winMessage = new Message(Message.Message_Type.Kazanma);
                     winMessage.content = msg;  // Kazanma mesajı içerik olarak
                     Client.Send(winMessage);
@@ -276,46 +297,48 @@ public class Game extends javax.swing.JFrame {
         }
     }
 
+    // Yeni oyun için oyun ekranını sıfırla
     public void resetGame() {
         // Skorları sıfırlama
-        for (Score myPoint : myPoints) {
+        for (Score myPoint : skorlar) {
             myPoint.getButton().setEnabled(true);
             myPoint.getButton().setText("-");
             myPoint.isButtonChoosen = false;
         }
 
-        for (Score rivalPoint : rivalPoints) {
+        for (Score rivalPoint : rakipSkorlar) {
             rivalPoint.getButton().setEnabled(true);
             rivalPoint.getButton().setText("-");
         }
 
-        // Zarları sıfırlama
+        // Zarları sıfırlama (yani rastgele yeni değerlere ayarla)
         for (Zar zar : zarlar) {
             zar.shuffle();
         }
 
-        // Zarlama sayacını sıfırlama
+        // Zarlama sayacını sıfırla
         rollCount = 0;
 
+        // Oyunun bitiş durumu sıfırla
         finishState = false;
 
-        // Ekran öğelerini sıfırlama (örneğin, skor etiketleri)
-        o1_bonus.setText("0");
-        o2_bonus.setText("0");
-        o1_ara.setText("0");
-        o2_ara.setText("0");
-        o1_toplam.setText("0");
-        o2_toplam.setText("0");
+        // Skor ekranlarındaki tüm sayısal değerleri sıfırla
+        o1_bonus.setText("-");
+        o2_bonus.setText("-");
+        o1_ara.setText("-");
+        o2_ara.setText("-");
+        o1_toplam.setText("-");
+        o2_toplam.setText("-");
 
-        // Turno kontrolünü sıfırlama
-        roundControl = 1;  // Eğer oyuncu 1'den başlayacaksa, roundControl'u 1 yapabilirsiniz.
+        // Oyuncu sırası sıfırlanıyor, oyun ilk oyuncuyla başlasın
+        sıra = 1;
 
         // Zarı atma butonunu yeniden etkinleştirme
         zarat_btn.setEnabled(true);
-        disableRivalButtons(false);
+        disableRivalButtons(false); // Rakip oyuncunun butonlarını devre dışı bırakma
 
-        // Yeni bir oyun için her şey sıfırlandı.
-        lbl_bitis.setText("___________________________________________________");  // Bitmiş oyun mesajlarını temizleme
+        // Bitmiş oyun mesajını temizle
+        lbl_bitis.setText("___________________________________________________");
 
     }
 
@@ -815,16 +838,17 @@ public class Game extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void zarat_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zarat_btnActionPerformed
-        rollCount++;
+        rollCount++; // Zar atma sayısını bir artır
+        // Tüm zar seçimlerini aktif et
         z1.setEnabled(true);
         z2.setEnabled(true);
         z3.setEnabled(true);
         z4.setEnabled(true);
         z5.setEnabled(true);
 
-        // her oyuncunun bir elde 3 kere zar atma hakkı var
+        // Her oyuncunun bir elde en fazla 3 zar atma hakkı vardır
         if (rollCount == 3) {
-            zarat_btn.setEnabled(false);
+            zarat_btn.setEnabled(false); // 3. atıştan sonra zar atma butonunu devre dışı bırak
             z1.setEnabled(false);
             z2.setEnabled(false);
             z3.setEnabled(false);
@@ -832,100 +856,107 @@ public class Game extends javax.swing.JFrame {
             z5.setEnabled(false);
         }
 
+        // Etkin olan (tutulmayan) zarları karıştır
         for (Zar d : zarlar) {
             if (d.getLabel().isEnabled()) {
                 d.shuffle();
             }
         }
 
-        for (Score myPoint : myPoints) {
+        // Oyuncunun skor tablosundaki seçilmemiş hücreleri yeniden hesapla ve güncelle
+        for (Score myPoint : skorlar) {
             if (!myPoint.isButtonChoosen) {
                 myPoint.getButton().setText(String.valueOf(Score.SkorHesaplama(zarlar, myPoint.getScore_type())));
             }
         }
 
-        // BURADA: Zar bilgilerini diğer client'a gönder
+        // Zar bilgilerini diğer client'a gönder (eş zamanlı görüntü için)
         int[] values = new int[5];
         for (int i = 0; i < 5; i++) {
-            values[i] = zarlar[i].getValue(); // Zar nesnesinde getValue() varsa kullan
+            values[i] = zarlar[i].getValue(); // Zar nesnesinden değer al
         }
 
+        // Zar bilgilerini içeren mesaj oluştur
         ZarMessage diceMessage = new ZarMessage(values); // veya senin mevcut yapına göre diziyi gönder
         Message msg = new Message(Message.Message_Type.Zarlar);
         msg.content = diceMessage;
-        Client.Send(msg);
+        Client.Send(msg); // Mesajı client üzerinden gönder
 
         revalidate();
     }//GEN-LAST:event_zarat_btnActionPerformed
 
+    // Her bir zar için tutulma durumu değiştiğinde, zarın kilitlenip kilitlenmeyeceğini kontrol eder
     private void z1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_z1StateChanged
         if (z1.isSelected()) {
-            dice01lbl.setEnabled(false);
+            dice01lbl.setEnabled(false); // Zar tutuldu, devre dışı bırak
         } else {
-            dice01lbl.setEnabled(true);
+            dice01lbl.setEnabled(true); // Zar bırakıldı, tekrar etkinleştir
         }
     }//GEN-LAST:event_z1StateChanged
 
     private void z2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_z2StateChanged
         if (z2.isSelected()) {
-            dice02lbl.setEnabled(false);
+            dice02lbl.setEnabled(false); // Zar tutuldu, devre dışı bırak
         } else {
-            dice02lbl.setEnabled(true);
+            dice02lbl.setEnabled(true); // Zar bırakıldı, tekrar etkinleştir
         }
     }//GEN-LAST:event_z2StateChanged
 
     private void z3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_z3StateChanged
         if (z3.isSelected()) {
-            dice03lbl.setEnabled(false);
+            dice03lbl.setEnabled(false); // Zar tutuldu, devre dışı bırak
         } else {
-            dice03lbl.setEnabled(true);
+            dice03lbl.setEnabled(true); // Zar bırakıldı, tekrar etkinleştir
         }
     }//GEN-LAST:event_z3StateChanged
 
     private void z4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_z4StateChanged
         if (z4.isSelected()) {
-            dice04lbl.setEnabled(false);
+            dice04lbl.setEnabled(false); // Zar tutuldu, devre dışı bırak
         } else {
-            dice04lbl.setEnabled(true);
+            dice04lbl.setEnabled(true); // Zar bırakıldı, tekrar etkinleştir
         }
     }//GEN-LAST:event_z4StateChanged
 
     private void z5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_z5StateChanged
         if (z5.isSelected()) {
-            dice05lbl.setEnabled(false);
+            dice05lbl.setEnabled(false); // Zar tutuldu, devre dışı bırak
         } else {
-            dice05lbl.setEnabled(true);
+            dice05lbl.setEnabled(true); // Zar bırakıldı, tekrar etkinleştir
         }
     }//GEN-LAST:event_z5StateChanged
 
     private void btn_yeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_yeniActionPerformed
-        btn_yeni.setEnabled(false);
-        resetGame();
+        btn_yeni.setEnabled(false); // Yeni oyun butonunu devre dışı bırak (bir daha basılmasın diye)
+        resetGame(); // Oyunu sıfırla
 
-        // Yeni oyun başladığını rakibe bildirmek için Message oluşturuluyor
+        // Yeni oyunun başladığını karşı tarafa bildir
         Message msgYeniOyun = new Message(Message.Message_Type.YeniOyun);
-        Client.Send(msgYeniOyun);  // Bu, Client sınıfındaki send metodunu kullanarak mesajı gönderir
+        Client.Send(msgYeniOyun);
 
     }//GEN-LAST:event_btn_yeniActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // Pencere kapanınca bağlantı koptu mesajı gönder
         Message msgKapandi = new Message(Message.Message_Type.BaglantiKoptu);
         Client.Send(msgKapandi);
     }//GEN-LAST:event_formWindowClosed
 
     private void btn_oyunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_oyunActionPerformed
         // Client servera baglanıyor
-        //Client.Start("56.228.28.117", 5000);
-        Client.Start("127.0.0.1", 4000);
+        Client.Start("56.228.28.117", 5000);
+        //Client.Start("127.0.0.1", 4000); //Localhostta deneme
+        // Eğer bağlantı kurulamazsa hata mesajı göster ve uygulamayı kapat
         if (Client.socket == null) {
             JOptionPane.showMessageDialog(this, "Connection Failed !!");
             System.exit(0);
         }
+        // Bağlantı başarılıysa "Rakip Bul" butonunu devre dışı bırak
         btn_oyun.setEnabled(false);
     }//GEN-LAST:event_btn_oyunActionPerformed
 
     private void btn_cikisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cikisActionPerformed
-        System.exit(0);
+        System.exit(0); // Uygulamadan çık
     }//GEN-LAST:event_btn_cikisActionPerformed
 
     /**

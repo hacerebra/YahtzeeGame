@@ -21,12 +21,12 @@ public class SClient {
 
     int clientID; // Client'in benzersiz ID'si
     Socket socket; // Client'in bağlantı soketi
-    public String name = "NoName";
+    public String isim = "Rakip";
     ObjectOutputStream sOutput; // Mesaj gönderme için ObjectOutputStream
     ObjectInputStream sInput; // Mesaj alma için ObjectInputStream
     Listen listenThread; // Mesajları dinlemek için oluşturulan thread
     PairingThread pairThread; // Rakip eşlemesi yapmak için oluşturulan thread
-    SClient rival; // Rakip client (eşleşmiş client)
+    SClient rakip; // Rakip client (eşleşmiş client)
     public boolean paired = false; // Eşleşme durumu
 
     public SClient(int clientID, Socket socket) {
@@ -70,35 +70,35 @@ public class SClient {
                     Message msg = (Message) sclient.sInput.readObject(); // Gelen mesajı al
                     switch (msg.type) { // Mesaj tipine göre işlem yap
                         case Ad: // Client ismini alır ve eşleştirme threadini başlatır
-                            sclient.name = msg.content.toString();
+                            sclient.isim = msg.content.toString();
                             if (!sclient.pairThread.isAlive()) {
                                 sclient.pairThread.start();
                             }
                             break;
                         case TurDegis: // Tur değişimini rakip client'a gönder
-                            sclient.rival.Send(msg);
+                            sclient.rakip.Send(msg);
                             System.out.println("Tur degistirdi.");
                             break;
                         // Bu mesaj tiplerini doğrudan rakibe ilet
                         case Kontrol:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
                         case Zarlar:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
                         case AraToplam:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
                         case Bitis:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
                         case Kazanma:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                         case YeniOyun:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
                         case BaglantiKoptu:
-                            Server.Send(sclient.rival, msg);
+                            Server.Send(sclient.rakip, msg);
                             break;
 
                     }
@@ -113,19 +113,19 @@ public class SClient {
                     }
 
                     // Rakip varsa ona bağlantı koptu mesajı gönder
-                    if (sclient.rival != null) {
+                    if (sclient.rakip != null) {
                         Message disconnectMsg = new Message(Message.Message_Type.BaglantiKoptu);
                         disconnectMsg.content = "Rakibiniz oyundan ayrıldı.";
-                        Server.Send(sclient.rival, disconnectMsg);
+                        Server.Send(sclient.rakip, disconnectMsg);
 
                         // Rakibin eşleşme durumunu sıfırla
-                        sclient.rival.rival = null;
-                        sclient.rival.paired = false;
+                        sclient.rakip.rakip = null;
+                        sclient.rakip.paired = false;
 
                         // Rakip eşleşme threadini yeniden başlat (eğer kapalıysa)
-                        if (sclient.rival.pairThread == null || !sclient.rival.pairThread.isAlive()) {
-                            sclient.rival.pairThread = sclient.rival.new PairingThread(sclient.rival); // Yeni thread örneği
-                            sclient.rival.pairThread.start(); // Tekrar başlat
+                        if (sclient.rakip.pairThread == null || !sclient.rakip.pairThread.isAlive()) {
+                            sclient.rakip.pairThread = sclient.rakip.new PairingThread(sclient.rakip); // Yeni thread örneği
+                            sclient.rakip.pairThread.start(); // Tekrar başlat
                         }
                     }
                     // Client listeden çıkarılır
@@ -181,23 +181,23 @@ public class SClient {
                             }
 
                             // Rakipsiz ve eşleşmemiş client bulunursa seç
-                            if (client.rival == null && !client.paired) {
+                            if (client.rakip == null && !client.paired) {
                                 selectedPair = client;
 
                                 // Karşılıklı eşle
-                                selectedPair.rival = sclient;
-                                sclient.rival = selectedPair;
+                                selectedPair.rakip = sclient;
+                                sclient.rakip = selectedPair;
 
                                 selectedPair.paired = true;
                                 sclient.paired = true;
 
                                 // Eşleşme mesajlarını karşılıklı gönder
                                 Message msg1 = new Message(Message.Message_Type.RakipBaglanti);
-                                msg1.content = sclient.name;
+                                msg1.content = sclient.isim;
                                 Server.Send(selectedPair, msg1);
 
                                 Message msg2 = new Message(Message.Message_Type.RakipBaglanti);
-                                msg2.content = selectedPair.name;
+                                msg2.content = selectedPair.isim;
                                 Server.Send(sclient, msg2);
 
                                 // Oyunun kontrol mesajları

@@ -4,13 +4,17 @@
  */
 package game_start;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hacerebra
  */
 public class Login extends javax.swing.JFrame {
 
+    // Oyun ekranını temsil eden Game sınıfının örneği
     public static Game game = new Game();
+    // Login ekranının kendi referansı (diğer sınıflardan erişim için)
     public static Login login;
 
     /**
@@ -122,25 +126,24 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_baglanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_baglanActionPerformed
-        game.setVisible(true);
-        game.oyuncu1_lbl.setText("Sen (" + txt_ad.getText() + ")");
-        game.oyuncu2_lbl.setText("Rakip");
-        game.zarat_btn.setEnabled(false);
-        game.z1.setEnabled(false);
-        game.z2.setEnabled(false);
-        game.z3.setEnabled(false);
-        game.z4.setEnabled(false);
-        game.z5.setEnabled(false);
+        String oyuncuAdi = txt_ad.getText().trim();
 
-        if (txt_ad.getText().equals(null) || txt_ad.getText().equals("")) {
-            System.out.println("FAIL!");
+        // Oyuncu adı boşsa uyarı ver ve işlemi durdur
+        if (oyuncuAdi == null || oyuncuAdi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Lütfen geçerli bir isim giriniz!", "Uyarı", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        login.setVisible(false);
+        game.setVisible(true);
+        game.setOyuncuAdi(oyuncuAdi);
+
+        // Login ekranını kapat
+        this.setVisible(false);
+        
     }//GEN-LAST:event_btn_baglanActionPerformed
 
     private void btn_cıkısActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cıkısActionPerformed
-        System.exit(0);
+        System.exit(0); // Uygulamadan çık
     }//GEN-LAST:event_btn_cıkısActionPerformed
 
     /**

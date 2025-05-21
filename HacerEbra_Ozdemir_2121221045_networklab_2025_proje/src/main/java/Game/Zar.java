@@ -25,9 +25,10 @@ public class Zar {
         this.label.setIcon(getImageIcon(this.value));
     }
 
+    private static final Random RANDOM = new Random();
     // Zar değerini rastgele değiştirir (1-6 arasında) ve görseli günceller
     public void shuffle() {
-        this.value = new Random().nextInt(6) + 1;
+        this.value = RANDOM.nextInt(6) + 1;
         this.label.setIcon(getImageIcon(this.value));
     }
 
