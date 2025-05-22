@@ -26,6 +26,7 @@ public class Zar {
     }
 
     private static final Random RANDOM = new Random();
+
     // Zar değerini rastgele değiştirir (1-6 arasında) ve görseli günceller
     public void shuffle() {
         this.value = RANDOM.nextInt(6) + 1;

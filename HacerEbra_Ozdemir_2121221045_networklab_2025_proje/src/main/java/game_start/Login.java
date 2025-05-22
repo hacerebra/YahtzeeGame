@@ -139,7 +139,7 @@ public class Login extends javax.swing.JFrame {
 
         // Login ekranını kapat
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_btn_baglanActionPerformed
 
     private void btn_cıkısActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cıkısActionPerformed
